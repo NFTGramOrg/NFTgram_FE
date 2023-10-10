@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { BiHomeCircle, BiUser } from "react-icons/bi";
 import {
   BsBell,
-  BsBookmark,
   BsEnvelope,
   BsThreeDots,
 } from "react-icons/bs";
@@ -24,10 +23,6 @@ const NAVIGATION_ITEMS = [
   {
     title: "Notifications",
     icon: BsBell,
-  },
-  {
-    title: "Messages",
-    icon: BsEnvelope,
   },
   ];
 const Leftbar = () => {

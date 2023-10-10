@@ -1,10 +1,7 @@
-import Feed from '@/components/Feed';
-import Leftbar from '@/components/Leftbar';
-import NewPost from '@/components/NewPost';
-import Rightsection from '@/components/Rightsection';
-import Link from 'next/link';
 import React from 'react'
-const Home = () => {
+import "./page.css"
+import Link from 'next/link'
+const page = () => {
   return (
     <div className=''>
         
@@ -30,4 +27,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default page
