@@ -1,5 +1,6 @@
 import React from 'react'
-import { BsDot } from 'react-icons/bs'
+import { BsChat, BsDot } from 'react-icons/bs'
+import { HiOutlineHeart } from 'react-icons/hi'
 
 function Feed() {
   return (
@@ -13,8 +14,8 @@ function Feed() {
                 <div>
                   <div className='w-10 h-10 bg-slate-200 rounded-full '></div>
                 </div>
-                  <div className='font-bold pl-2'>Bored Ape 1</div>
-                  <div>@boredape791234</div>
+                  <div className='font-bold pl-2 text-secondary'>Bored Ape 1</div>
+                  <div className='text-primary'>@boredape791234</div>
                   <div>
                     <BsDot/>
                   </div>
@@ -25,12 +26,9 @@ function Feed() {
                 </div>
                 <div className=' bg-slate-400 aspect-square w-full h-96 rounded-xl'></div>
 
-              <div className='flex items-center space-x-2 w-full'>
-                <div>C</div>
-                <div>R</div>
-                <div>L</div>
-                <div>S</div>
-                <div>SH</div>
+              <div className='flex items-center justify-start space-x-20 mt-2 w-full'>
+                <div className=' rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer'><BsChat/></div>
+                <div className=' rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer'><HiOutlineHeart/></div>
               </div>
               </div>
               </div>

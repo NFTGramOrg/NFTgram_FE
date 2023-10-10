@@ -1,6 +1,7 @@
 import Feed from '@/components/Feed';
 import Leftbar from '@/components/Leftbar';
 import NewPost from '@/components/NewPost';
+import Rightsection from '@/components/Rightsection';
 import React from 'react'
 const Home = () => {
   return (
@@ -12,7 +13,7 @@ const Home = () => {
           <NewPost/>
           <Feed/>
         </main>
-        {/* <section>Rightbar</section> */}
+        <Rightsection/>
       </div>
     </div>
   )
