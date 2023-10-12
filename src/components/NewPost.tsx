@@ -1,5 +1,14 @@
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
+const NFTS = [
+  {
+    nftname :"Bored Ape 1",
+    nftid:"0"
+  },
+  {
+    nftname :"Bored Ape 2",
+    nftid:"3"
+  }
+]
 function NewPost() {
   return (
     <div className='border-t-[0.5px] px-4 border-b-[0.5px] flex items-stretch py-6 space-x-2 border-accent relative'>
@@ -12,11 +21,16 @@ function NewPost() {
             placeholder="Submit prompts to generate a post"
           />
           <div className="w-full justify-between items-center flex">
-            <div></div>
-            <div className="w-full max-w-[100px]">
+            <div><label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Your NFT</label>
+            <select id="countries" className=" text-sm rounded-lg focus:border-blue-500 block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500">
+              <option selected>Choose Your NFT</option>
+              {NFTS.map((item) => (
+              <option value={item.nftid}>{item.nftname}</option>))}
+            </select></div>
+            <div className="w-full max-w-[100px] flex-col mt-4">
               <button
                 type="submit"
-                className="rounded-full bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold"
+                className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold"
               >
                 Post
               </button>
