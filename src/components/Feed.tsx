@@ -1,13 +1,15 @@
+import Link from 'next/link'
 import React from 'react'
 import { BsChat, BsDot } from 'react-icons/bs'
 import { HiOutlineHeart } from 'react-icons/hi'
 
 function Feed() {
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col '>
           {
             Array.from({length:5}).map((_,i)=>(
-              <div key={i} className='border-t-[0.5px] p-4 border-b-[0.5px] border-accent'>
+              <Link href='/postpage' key={i}>
+              <div key={i} className='border-t-[0.5px] p-4 border-b-[0.5px] border-accent hover:bg-black '>
                 
               <div className='flex flex-col space-y-4'>
                 <div className='flex items-center space-x-1'>
@@ -32,6 +34,7 @@ function Feed() {
               </div>
               </div>
               </div>
+              </Link> 
             ))
           }
 
