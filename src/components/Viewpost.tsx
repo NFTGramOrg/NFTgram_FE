@@ -6,31 +6,36 @@ const REPLIES = [
         user:"Boredape1",
         username:"@boredape791234",
         reply:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-        ,time:"1 hour ago"
+        ,time:"1 hour ago",
+        key:"1"
     },
     {
         user:"Boredape2",
         username:"@boredape7914",
         reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-        ,time:"1 hour ago"
+        ,time:"1 hour ago",
+        key:"2"
     },
     {
         user:"Boredape2",
         username:"@boredape7914",
         reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-        ,time:"1 hour ago"
+        ,time:"1 hour ago",
+        key:"3"
     },
     {
         user:"Boredape2",
         username:"@boredape7914",
         reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-        ,time:"1 hour ago"
+        ,time:"1 hour ago",
+        key:"4"
     },
     {
         user:"Boredape2",
         username:"@boredape7914",
         reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-        ,time:"1 hour ago"
+        ,time:"1 hour ago",
+        key:"5"
     }
 ]
 function Viewpost() {
