@@ -10,18 +10,22 @@ import { HiOutlineHashtag } from "react-icons/hi";
 const NAVIGATION_ITEMS = [
   {
     title: "Home",
+    link:"home",
     icon: BiHomeCircle,
   },
   {
     title: "My NFT",
+    link:"profilepage",
     icon: BiUser,
   },
   {
     title: "Trending",
+    link:"trending",
     icon: HiOutlineHashtag,
   },
   {
     title: "Notifications",
+    link:"notifications",
     icon: BsBell,
   },
   ];
@@ -36,7 +40,7 @@ const Leftbar = () => {
                 <Link
                 className="hover:bg-white/10 text-2xl transition duration-200 flex items-center justify-start w-fit space-x-4 rounded-3xl py-2 px-6"
                 key={item.title}
-                href={`/${item.title.toLowerCase()}`}
+                href={`/${item.link}`}
                 >
                     <div>
                       <item.icon/>
