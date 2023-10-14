@@ -31,7 +31,7 @@ function Profile() {
             <div className="flex flex-col text-right">
             <div><label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Your NFT</label>
             <select id="countries" className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent">
-              <option selected>Choose Your NFT</option>
+              <option defaultValue={1}>Choose Your NFT</option>
               {NFTS.map((item) => (
               <option value={item.nftid}>{item.nftname}</option>))}
             </select></div>

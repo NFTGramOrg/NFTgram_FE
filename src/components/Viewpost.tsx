@@ -42,7 +42,7 @@ function Viewpost() {
   return (
     <div className='flex flex-col'>
          
-              <div key="1" className='border-t-[0.5px] p-4 border-b-[0.5px] border-accent'>
+              <div className='border-t-[0.5px] p-4 border-b-[0.5px] border-accent'>
                 
               <div className='flex flex-col space-y-4'>
                 <div className='flex items-center space-x-1'>
@@ -69,7 +69,7 @@ function Viewpost() {
               
               </div>
               {REPLIES.map((item) => (
-              <div key="1" className=' ml-10  p-4 border-b-[0.5px] border-accent'>
+              <div className=' ml-10  p-4 border-b-[0.5px] border-accent'>
                 
               <div className='flex flex-col space-y-4'>
                 <div className='flex items-center space-x-1'>
