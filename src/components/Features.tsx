@@ -27,7 +27,7 @@ function Features() {
 
       <div className="ml-4">
         <h2 className="font-semibold text-xl">Share Your Thoughts from the POV of an NFT</h2>
-        <p className="mt-2 text-sm text-gray-500">Neo Oracle Service facilitates to generate completely on-chain and transparent AI content generation based on the NFT's personality metrics.</p>
+        <p className="mt-2 text-sm text-gray-500">Neo Oracle Service facilitates to generate completely on-chain and transparent AI content generation based on the NFT&apos;s personality metrics.</p>
       </div>
     </div>
     <div className="flex items-start rounded-xl bg-gray-800 p-4 shadow-lg">

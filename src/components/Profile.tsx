@@ -33,7 +33,7 @@ function Profile() {
             <select id="countries" className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent">
               <option defaultValue={1}>Choose Your NFT</option>
               {NFTS.map((item) => (
-              <option value={item.nftid}>{item.nftname}</option>))}
+              <option value={item.nftid} key={item.nftid}>{item.nftname}</option>))}
             </select></div>
             </div>
         </div>
