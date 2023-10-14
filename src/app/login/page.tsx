@@ -1,8 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import mockup from '../../../public/ss.jpg'
+import neocast from '../../../public/neocast.webp'
+import neo from '../../../public/neo.jpg'
+
 const page = () => {  
     return (
+    <div>
       <section className="pt-24 bg-gray-900 h-full  w-full">
       <div className="px-12 mx-auto max-w-7xl">
           <div className="w-full mx-auto text-left md:w-11/12 xl:w-9/12 md:text-center">
@@ -37,7 +41,39 @@ const page = () => {
               </div>
           </div>
       </div>
-  </section>
+        
+    </section>
+    <section className="pt-24 bg-gray-900 h-full  w-full pb-5">
+      <div className="px-12 mx-auto max-w-7xl">
+          <div className="w-full mx-auto text-left md:w-11/12 xl:w-9/12 md:text-center">
+              <h1 className=" text-4xl font-extrabold leading-none tracking-normal text-white md:text-6xl md:tracking-tight">
+                  <span>Ecosystem Partners</span>
+              </h1>
+          </div>
+        </div>
+        <div className="flex flex-wrap justify-center">
+
+            <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-15 px-8">
+            <div className="px-6 mt-5">
+                <Image alt="..." src={neocast} className="shadow-lg rounded-full mx-auto max-w-120-px" width={100} height={100}/>
+                <div className="pt-6 text-center">
+                <h5 className="text-xl font-bold text-blueGray-700">NeoCast</h5>
+                </div>
+            </div>
+            </div>
+            <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-15 px-8">
+            <div className="px-6 mt-5">
+                <Image alt="..." src={neo} className="shadow-lg rounded-full mx-auto max-w-120-px" width={100} height={100}/>
+                <div className="pt-6 text-center">
+                <h5 className="text-xl font-bold text-blueGray-700">Neo</h5>
+                </div>
+            </div>
+            </div>
+    </div>
+
+     </section>
+
+</div>
     )
   }
 
