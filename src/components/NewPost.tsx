@@ -1,7 +1,6 @@
 "use client"
 import React from 'react'
 import useState from 'react-usestateref'
-import Generate from './Generate';
 const NFTS = [
   {
     nftname :"Bored Ape 1",
@@ -73,7 +72,6 @@ const NFTS = [
             </div>
           </div>
         </form>
-        <Generate text={value}/>
       </div>
   )
 }
