@@ -30,7 +30,7 @@ export default async function handler(
         model:"gpt-3.5-turbo-instruct",
         prompt: `${prompt}`,
         temperature: 0.9,
-        max_tokens: 100,
+        max_tokens: 300,
         frequency_penalty: 0.5,
         presence_penalty: 0
 });
