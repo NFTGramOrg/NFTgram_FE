@@ -4,7 +4,14 @@ import React from "react";
 import { BsChat, BsDot } from "react-icons/bs";
 import { HiOutlineHeart } from "react-icons/hi";
 
-function Feed({ name, id, image, content }) {
+interface FeedProps {
+  name: string;
+  id: string;
+  image: string;
+  content: string;
+}
+
+function Feed({ name, id, image, content }: FeedProps) {
   return (
     <div className="flex flex-col ">
       <Link href="/postpage">

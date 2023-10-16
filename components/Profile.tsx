@@ -114,7 +114,7 @@ function Profile() {
             </div>
           </div>
         </div>
-        <Feed />
+        <Feed name="Romario" id="@romario" image="../public/pp.png" content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero incidunt provident magni sit delectus inventore, aliquid esse iusto iure placeat fugit odit maiores molestiae quasi quibusdam consequatur, repellat quo eligendi!"  />
       </div>
       <hr className="border-gray-800" />
     </div>
