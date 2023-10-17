@@ -14,6 +14,7 @@ const NFTS = [
  function NewPost() {
   const [input, setInput] = useState('')
   const [value,setValue]=useState('');
+  const [buttondisabled,setDsiabled]=useState(true);
   // const [loading,setLoading]=useState(false);
   const callApi =async(input:string)=>{
     // setLoading(true);
@@ -56,7 +57,7 @@ const NFTS = [
           />
           <div className="w-full justify-between items-center flex">
             <div><label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Your NFT</label>
-            <select id="countries" className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent">
+            <select id="countries" className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent" onChange={()=>setDsiabled(false)}>
               <option defaultValue={1}>Choose Your NFT</option>
               {NFTS.map((item) => (
               <option value={item.nftid} key={item.nftid}>{item.nftname}</option>))}
@@ -64,8 +65,10 @@ const NFTS = [
             <div className="w-full max-w-[100px] flex-col mt-4">
               <button
                 type="submit"
-                className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold"
+                disabled={buttondisabled}
+                className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
                 onClick={()=>callApi(input)}
+                
               >
                 Post
               </button>

@@ -2,9 +2,9 @@ import React from 'react'
 
 function Footer() {
   return (
-    <section className="pt-24 bg-gray-900 h-full  w-full pb-20">
+    <section className="pt-24 bg-gray-900 h-full w-screen pb-20 overflow-hidden">
         <footer className="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
-            <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+            <div className="w-full max-w-screen-2xl mx-auto p-4 md:py-8">
                 <div className="sm:flex sm:items-center sm:justify-between">
                     <a href="https://NFTgram.com/" className="flex items-center mb-4 sm:mb-0">
                         {/* <Image src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="NFTgram Logo" /> */}

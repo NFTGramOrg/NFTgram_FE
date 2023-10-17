@@ -16,13 +16,20 @@ function Hero() {
     }
   }
   return (
-    <section className="pt-24 bg-gray-900 h-full  w-full">
-      <div className="px-12 mx-auto max-w-7xl">
+    <section className="pt-10   bg-gray-900 h-full  w-full">
+      <div className="flex flex-row ">
+      <div className=" pl-5">
+              <Image src="/nftgram.png" width={100} height={100} alt="" className=' rounded-full shadow-xl'/>
+      </div>
+      <div className=" px-9 mx-auto max-w-7xl">
         <div className="w-full mx-auto text-left md:w-11/12 xl:w-9/12 md:text-center">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-white md:text-6xl md:tracking-tight">
             <span>Social Identity for NFTs</span>
-            <div className=" text-8xl">
+          
+            <div className=" text-8xl ">
+              
               <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-green-400 to-purple-500 lg:inline ">
+              
                 NFTgram
               </span>
             </div>
@@ -37,7 +44,9 @@ function Hero() {
                 signIn();
               }}
             >
-              Sign in with NeoLine
+              <Image src="/neonwallet.png" width={40} height={40} alt="" className="mt-1" />
+              Sign in with Neon
+              
               <svg
                 className="w-4 h-4 ml-1"
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,6 +82,7 @@ function Hero() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

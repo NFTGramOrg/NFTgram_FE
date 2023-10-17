@@ -6,7 +6,7 @@ import Faq from "./Faq";
 import Footer from "./Footer";
 function Landing() {
   return (
-    <div>
+    <div className=" overflow-x-hidden">
       <Hero />
       <Eco />
       <Features />

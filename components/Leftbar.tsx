@@ -7,6 +7,7 @@ import {
   BsThreeDots,
 } from "react-icons/bs";
 import { HiOutlineHashtag } from "react-icons/hi";
+import Image from 'next/image';
 const NAVIGATION_ITEMS = [
   {
     title: "Home",
@@ -15,7 +16,7 @@ const NAVIGATION_ITEMS = [
   },
   {
     title: "My NFT",
-    link:"profilepage",
+    link:"profile",
     icon: BiUser,
   },
   {
@@ -31,14 +32,17 @@ const NAVIGATION_ITEMS = [
   ];
 const Leftbar = () => {
   return (
-    <section className="fixed w-72 flex flex-col items-stretch h-screen my-4">
+    <section className="fixed w-72 flex flex-col items-stretch h-screen my-4 mr-5">
         <div className='flex-col items-stretch h-full space-y-4 my-4'>
           <Link href={"/"} className='my-4'>
-                  <div className=' justify-center text-xl font-extrabold'>NFTgram</div>
+                <div className='flex flex-row'> 
+                  <Image src="/nftgram.png" width={50} height={50} alt="" className='flex flex-col mx-3 rounded-full'/>
+                  <div className='flex flex-col justify-center text-xl font-extrabold'>NFTgram</div>
+                  </div>
                 </Link>
               {NAVIGATION_ITEMS.map((item) => (
                 <Link
-                className="hover:bg-white/10 text-2xl transition duration-200 flex items-center justify-start w-fit space-x-4 rounded-3xl py-2 px-6"
+                className="hover:bg-white/10 text-xl font-bold transition duration-200 flex items-center justify-start w-fit space-x-4 rounded-3xl py-2 px-6"
                 key={item.title}
                 href={`/${item.link}`}
                 >
@@ -50,9 +54,11 @@ const Leftbar = () => {
                     </div>
                   </Link>
               ))}
-            <button className=' w-full rounded-full bg-secondary px-6 py-4  text-2xl text-center hover:bg-opacity-70 transition duration-200  '>
+              <div className='pt-5'>
+            <button className=' w-3/4  rounded-full bg-secondary px-2 py-4  text-xl font-semibold text-center hover:bg-opacity-70 transition duration-200  '>
               Make Post
             </button>
+            </div>
         </div>
         <button className="rounded-full flex items-center space-x-2 bg-transparent p-4 text-center hover:bg-white/10 transition duration-200 w-full justify-between mb-5">
         <div className="flex items-center space-x-2">

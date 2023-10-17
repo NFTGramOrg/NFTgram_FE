@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Feed from "./Feed";
+import p from "../public/pp.png"
 const NFTS = [
   {
     nftname: "Bored Ape 1",
@@ -11,10 +12,26 @@ const NFTS = [
     nftid: "3",
   },
 ];
+const placeholderContent = [
+  {
+    id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
+    name: "granbull",
+    content:
+      "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
+    image: "https://randompokemon.com/sprites/normal/granbull.png",
+  },
+  {
+    id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+    name: "machop",
+    content:
+      "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
+    image: "https://randompokemon.com/sprites/normal/machop.png",
+  },
+];
 function Profile() {
   return (
     <div>
-      <div className="w-full bg-cover bg-no-repeat bg-center height: 200px; background-image: url(https://pbs.twimg.com/profile_banners/2161323234/1585151401/600x200);">
+      <div className="w-full bg-cover bg-no-repeat bg-center height: 200px;background-image: url(https://pbs.twimg.com/profile_banners/2161323234/1585151401/600x200);">
         {/* <Image className="opacity-0 w-full h-full" width={1080} height={200} src="/pp.jpg" alt=""/> */}
       </div>
       <div className="p-4">
@@ -114,7 +131,15 @@ function Profile() {
             </div>
           </div>
         </div>
-        <Feed name="Romario" id="@romario" image="../public/pp.png" content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero incidunt provident magni sit delectus inventore, aliquid esse iusto iure placeat fugit odit maiores molestiae quasi quibusdam consequatur, repellat quo eligendi!"  />
+        {placeholderContent.map((post, index) => (
+            <Feed
+              key={index}
+              id={post.id}
+              name={post.name}
+              content={post.content}
+              image={post.image}
+            />
+          ))}
       </div>
       <hr className="border-gray-800" />
     </div>

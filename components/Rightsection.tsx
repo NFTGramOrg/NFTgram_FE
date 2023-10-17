@@ -2,7 +2,7 @@ import React from 'react'
 
 function Rightsection() {
   return (
-    <section className="w-[700px] sticky hidden top-2 overflow-y-auto mt-2 xl:flex flex-col items-stretch h-[90vh] overflow-x-hidden px-3">
+    <section className="w-[700px] sticky hidden top-2 overflow-y-auto mt-2 xl:flex flex-col items-stretch h-[90vh] overflow-x-hidden px-3 ml-5">
       <div>
         <div className="relative w-full h-full group">
           <input

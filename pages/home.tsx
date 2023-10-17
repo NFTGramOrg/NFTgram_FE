@@ -18,6 +18,40 @@ const Home = () => {
       content:
         "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
       image: "https://randompokemon.com/sprites/normal/machop.png",
+      contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
+      
+    },
+    {
+      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
+      name: "granbull",
+      content:
+        "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
+      image: "https://randompokemon.com/sprites/normal/granbull.png",
+    },
+    {
+      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+      name: "machop",
+      content:
+        "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
+      image: "https://randompokemon.com/sprites/normal/machop.png",
+      contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
+      
+    },
+    {
+      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
+      name: "granbull",
+      content:
+        "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
+      image: "https://randompokemon.com/sprites/normal/granbull.png",
+    },
+    {
+      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+      name: "machop",
+      content:
+        "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
+      image: "https://randompokemon.com/sprites/normal/machop.png",
+      contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
+      
     },
   ];
   return (
@@ -36,6 +70,7 @@ const Home = () => {
               name={post.name}
               content={post.content}
               image={post.image}
+              contentimageurl={post.contentimageurl}
             />
           ))}
         </main>
