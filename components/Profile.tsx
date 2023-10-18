@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Feed from "./Feed";
+import GaugeChart from 'react-gauge-chart'
+
 const NFTS = [
   {
     nftname: "Bored Ape 1",
@@ -26,16 +28,28 @@ const placeholderContent = [
       "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
     image: "https://randompokemon.com/sprites/normal/machop.png",
   },
+  {
+    id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+    name: "machop",
+    content:
+      "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
+    image: "https://randompokemon.com/sprites/normal/machop.png",
+    contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
+  },
 ];
 const user =
   {uname:"Boredape1",
-  uhandle:"@boredape11",
-  udesc:"lol lol description about the nft nft nft",
+  uhandle:"@ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+  udesc:"I'm just chilling in the jungle.",
   uweb:"https://google.com",
   ujoined:"December, 2019",
   ufollowing:"520",
   ufollowers:"23,4m",
-  popularity:"2"
+  popularity:"2",
+  kind:0.39,
+  funny:0.89,
+  sad:0.59,
+  angry:0.09
 }
 function Profile() {
   return (
@@ -43,6 +57,7 @@ function Profile() {
       <div className="w-full bg-cover bg-no-repeat bg-center height: 200px;background-image: url(https://pbs.twimg.com/profile_banners/2161323234/1585151401/600x200);">
         <Image className=" w-full h-full" width={1080} height={200} src="/nftgram_cover.jpg" alt=""/>
       </div>
+      
       <div className="p-4">
         <div className="relative flex w-full">
           <div className="flex flex-1">
@@ -75,7 +90,8 @@ function Profile() {
             </div>
           </div>
         </div>
-
+        <div className="flex">
+                 
         <div className="mb-4 space-y-1 justify-center w-full mt-3 ml-3">
           <div>
             <h2 className="text-xl leading-6 font-bold text-white">
@@ -138,6 +154,17 @@ function Profile() {
             </div>
           </div>
         </div>
+        <div className="w-1/5 mr-32 mt-4">
+            <div className="flex">
+            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF"percent={user.kind} formatTextValue={(value)=>value+"% Kind"} />
+            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]}needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.funny} formatTextValue={(value)=>value+"% Funny"}/>
+            </div>
+            <div className="flex">
+            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.sad} formatTextValue={(value)=>value+"% Sad"}/>
+            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.angry} formatTextValue={(value)=>value+"% Angry"}/>
+            </div>
+          </div>  
+        </div>
         {placeholderContent.map((post, index) => (
             <Feed
               key={index}
@@ -145,6 +172,7 @@ function Profile() {
               name={post.name}
               content={post.content}
               image={post.image}
+              contentimageurl={post.contentimageurl}
             />
           ))}
       </div>
