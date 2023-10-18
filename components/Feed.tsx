@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { BsChat, BsDot } from "react-icons/bs";
-import { HiOutlineHeart } from "react-icons/hi";
+import {BiHappyAlt} from "react-icons/bi";
+import {BiAngry} from "react-icons/bi"
+import {BiSad} from "react-icons/bi"
+import {FaRegLaughSquint} from "react-icons/fa"
 
 interface FeedProps {
   name: string;
@@ -52,12 +55,21 @@ function Feed({ name, id, image, content,contentimageurl }: FeedProps) {
                 </div>
               )
             }
-            <div className="flex items-center justify-start space-x-20 mt-2 w-full">
+            <div className="flex items-center justify-start space-x-5 mt-2 w-full">
               <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
                 <BsChat />
               </div>
               <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
-                <HiOutlineHeart />
+                <BiHappyAlt />
+              </div>
+              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+                <BiAngry />
+              </div>
+              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+                <BiSad />
+              </div>
+              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+                <FaRegLaughSquint />
               </div>
             </div>
           </div>
