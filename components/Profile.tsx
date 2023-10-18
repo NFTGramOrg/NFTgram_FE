@@ -2,6 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import Feed from "./Feed";
+import dynamic from "next/dynamic";
+const GaugeChart = dynamic(() => import('react-gauge-chart'), { ssr: false });
 // import GaugeChart from 'react-gauge-chart'  
 
 const NFTS = [
@@ -156,16 +158,16 @@ function Profile() {
             </div>
           </div>
         </div>
-        {/* <div className="w-1/5 mr-32 mt-4">
+        <div className="w-1/5 mr-32 mt-4">
             <div className="flex">
-            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF"percent={user.kind} formatTextValue={(value)=>value+"% Kind"} />
-            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]}needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.funny} formatTextValue={(value)=>value+"% Funny"}/>
+            <GaugeChart id="gauge-chart1" nrOfLevels={3} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF"percent={user.kind} formatTextValue={(value)=>value+"% Kind"} />
+            <GaugeChart id="gauge-chart1" nrOfLevels={3} colors={["#865DFF","#FFA3FD"]}needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.funny} formatTextValue={(value)=>value+"% Funny"}/>
             </div>
             <div className="flex">
-            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.sad} formatTextValue={(value)=>value+"% Sad"}/>
-            <GaugeChart id="gauge-chart1" nrOfLevels={1} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.angry} formatTextValue={(value)=>value+"% Angry"}/>
+            <GaugeChart id="gauge-chart1" nrOfLevels={3} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.sad} formatTextValue={(value)=>value+"% Sad"}/>
+            <GaugeChart id="gauge-chart1" nrOfLevels={3} colors={["#865DFF","#FFA3FD"]} needleColor="#865DFF" needleBaseColor="#865DFF" percent={user.angry} formatTextValue={(value)=>value+"% Angry"}/>
             </div>
-          </div>   */}
+          </div>  
         </div>
         {placeholderContent.map((post, index) => (
             <Feed
