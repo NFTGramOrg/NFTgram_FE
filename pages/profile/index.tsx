@@ -1,3 +1,4 @@
+'use client'
 import Leftbar from "@/components/Leftbar";
 import Profile from "@/components/Profile";
 import Rightsection from "@/components/Rightsection";
