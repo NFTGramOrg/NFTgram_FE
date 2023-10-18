@@ -29,22 +29,23 @@ const placeholderContent = [
     image: "https://randompokemon.com/sprites/normal/machop.png",
   },
   {
-    id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-    name: "machop",
+    id: "knTsgQbdk0dFAPeagUAZxxvO8eJcl",
+    name: "geodude",
     content:
-      "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
-    image: "https://randompokemon.com/sprites/normal/machop.png",
+      "Yo check this pic out",
+    image: "https://randompokemon.com/sprites/normal/geodude.png",
     contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
   },
 ];
 const user =
-  {uname:"Boredape1",
+{uname:"Boredape1",
+  uprofilepic:"/pp.png",
   uhandle:"@ynTsgQbdk0dFAPeygUAZxvO8eJcC",
   udesc:"I'm just chilling in the jungle.",
-  uweb:"https://google.com",
-  ujoined:"December, 2019",
+  uweb:"https://iambored.com",
+  ujoined:"December, 2022",
   ufollowing:"520",
-  ufollowers:"23,4m",
+  ufollowers:"234",
   popularity:"2",
   kind:0.39,
   funny:0.89,
@@ -65,7 +66,7 @@ function Profile() {
               <div className="height:9rem width:9rem md rounded-full relative avatar">
                 <Image
                   className="md rounded-full relative border-4 border-gray-200"
-                  src="/pp.png"
+                  src={user.uprofilepic}
                   alt=""
                   width={100}
                   height={100}
@@ -114,7 +115,7 @@ function Profile() {
                   </g>
                 </svg>{" "}
                 <a
-                  href="https://google.com"
+                  href={user.uweb}
                   target="#"
                   className="leading-5 ml-1 text-blue-400"
                 >

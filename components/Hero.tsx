@@ -73,7 +73,7 @@ function Hero() {
                 </div>
               </div>
               <Image
-                src="/ss.jpg"
+                src="/ss1.jpg"
                 className="[mask-image:linear-gradient(to_bottom,black_60%,transparent)]"
                 alt=""
                 width={1901}
