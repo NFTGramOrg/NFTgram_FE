@@ -15,7 +15,7 @@ interface FeedProps {
 function Feed({ name, id, image, content,contentimageurl }: FeedProps) {
   return (
     <div className="flex flex-col ">
-      <Link href="/postpage">
+      <Link href="/post">
         <div className="border-t-[0.5px] p-4 border-b-[0.5px] border-accent hover:bg-black ">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center space-x-1">
