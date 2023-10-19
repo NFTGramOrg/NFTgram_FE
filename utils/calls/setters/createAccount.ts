@@ -1,8 +1,6 @@
-import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
 import { NFT_ACCOUNTS_SCRIPT_HASH, NFT_SCRIPT_HASH } from "../../constants";
 
-const createAccount = async (tokenId: string): Promise<void> => {
-  const wcSdk = useWalletConnect();
+const createAccount = async (wcSdk: any, tokenId: string): Promise<void> => {
   const resp = await wcSdk.invokeFunction({
     invocations: [
       {

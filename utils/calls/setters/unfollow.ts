@@ -2,10 +2,10 @@ import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
 import { NFT_ACCOUNTS_SCRIPT_HASH, NFT_SCRIPT_HASH } from "../../constants";
 
 const unfollow = async (
+  wcSdk: any,
   unfollowerAccountId: string,
   unfollowingAccountId: string
 ): Promise<void> => {
-  const wcSdk = useWalletConnect();
   const resp = await wcSdk.invokeFunction({
     invocations: [
       {
