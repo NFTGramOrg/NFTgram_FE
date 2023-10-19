@@ -31,7 +31,10 @@ function NewPost() {
       setPrompt(input);
       console.log(input);
       try {
-        const res = await fetch("/api/generate", {
+        if(nftid===""){
+          throw new Error("Input is empty");
+        }
+        const res = await fetch("/api/createpost", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -52,7 +52,7 @@ function Choose() {
       ) : (
         <div className="flex flex-row space-x-4">
           {accounts.map((account, id) => (
-            <Link href={"/profile/" + account.id}>
+            <Link href={"/profile/" + account.id} key={id}>
               <div className="flex flex-col  bg-slate-200 rounded-l">
                 <Image
                   src={account.image}
