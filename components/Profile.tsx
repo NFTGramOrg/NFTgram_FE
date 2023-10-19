@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 import getAccount from "@/utils/calls/getters/getAccount";
 import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
 const GaugeChart = dynamic(() => import("react-gauge-chart"), { ssr: false });
+import { createClient } from '@supabase/supabase-js'
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabase = supabaseUrl ? createClient(supabaseUrl, supabaseKey) : null;
 const NFTS = [
   {
     nftname: "granbull",
@@ -39,28 +43,50 @@ const placeholderContent = [
     contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
   },
 ];
-const user = {
-  uname: "Boredape1",
-  uprofilepic: "/pp.png",
-  uhandle: "@ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-  udesc: "I'm just chilling in the jungle.",
-  uweb: "https://iambored.com",
-  ujoined: "December, 2022",
-  ufollowing: "520",
-  ufollowers: "234",
-  popularity: "2",
-  kind: 0.39,
-  funny: 0.89,
-  sad: 0.59,
-  angry: 0.09,
-};
 function Profile({ accountId }: { accountId: string }) {
   const [account, setAccount] = useState({});
   const wcSdk = useWalletConnect();
 
+  const [uname, setUname] = useState("")
+  const [uprofilepic, setUprofilepic] = useState("")
+  const [uhandle, setUhandle] = useState("")
+  const [udesc, setudesc] = useState("")
+  const [ujoined, setujoined] = useState("")
+  const [ufollowing, setufollowing] = useState("")
+  const [popularity, setpopularity] = useState("")
+  const [kind, setkind] = useState(0)
+  const [funny, setfunny] = useState(0)
+  const [sad, setsad] = useState(0)
+  const [angry, setangry] = useState(0)
+  const [ufolloewers, setufolloewers] = useState("")
+  
+
   useEffect(() => {
     (async function () {
-      if (!wcSdk.isConnected()) {
+      const { data, error } = supabase ? await supabase
+        .from('profile')
+        .select(`
+            *
+        `) : { data: null, error: new Error('Supabase client is not initialized') };
+      if(error){
+        console.log(error)
+      }
+      else if (data && data.length > 0) {
+        setUname(data[0].username)
+        setUprofilepic(data[0].profilepic)
+        setUhandle(data[0].userid)
+        setudesc(data[0].desc)
+        setujoined(data[0].created_at)
+        setufollowing(data[0].following)
+        setufolloewers(data[0].followers)
+        setpopularity(data[0].popularity)
+        setkind(data[0].kind)
+        setsad(data[0].sad)
+        setangry(data[0].angry)
+
+
+      }
+      if (wcSdk.isConnected()) {
         console.log("is connected");
         const fetchedAccount = await getAccount(wcSdk, accountId);
         console.log(fetchedAccount);
@@ -89,7 +115,7 @@ function Profile({ accountId }: { accountId: string }) {
               <div className="height:9rem width:9rem md rounded-full relative avatar">
                 <Image
                   className="md rounded-full relative border-4 border-gray-200"
-                  src={user.uprofilepic}
+                  src={uprofilepic}
                   alt=""
                   width={100}
                   height={100}
@@ -125,14 +151,17 @@ function Profile({ accountId }: { accountId: string }) {
           <div className="mb-4 space-y-1 justify-center w-full mt-3 ml-3">
             <div>
               <h2 className="text-xl leading-6 font-bold text-white">
-                {user.uname}
+                {uname}
+                  
               </h2>
               <p className="text-sm leading-6 font-medium text-gray-600">
-                {user.uhandle}
+                {uhandle}
               </p>
             </div>
             <div className="mt-3">
-              <p className="text-white leading-tight mb-2 ml-5">{user.udesc}</p>
+              <p className="text-white leading-tight mb-2 ml-5">
+                {udesc}
+                </p>
               <div className="text-gray-600 flex">
                 <span className="flex mr-2">
                   <svg
@@ -146,11 +175,11 @@ function Profile({ accountId }: { accountId: string }) {
                     </g>
                   </svg>{" "}
                   <a
-                    href={user.uweb}
+                    href="https://iambored.com"
                     target="#"
                     className="leading-5 ml-1 text-blue-400"
                   >
-                    {user.uweb}
+                    https://iambored.com
                   </a>
                 </span>
                 <span className="flex mr-2">
@@ -171,21 +200,21 @@ function Profile({ accountId }: { accountId: string }) {
                       <circle cx="12" cy="17.486" r="1.285"></circle>
                     </g>
                   </svg>{" "}
-                  <span className="leading-5 ml-1">{user.ujoined}</span>
+                  <span className="leading-5 ml-1">{ujoined}</span>
                 </span>
               </div>
             </div>
             <div className="pt-3 flex justify-start items-start w-full divide-x divide-gray-800 divide-solid">
               <div className="text-center pr-3">
-                <span className="font-bold text-white">{user.ufollowing}</span>
+                <span className="font-bold text-white">{ufollowing}</span>
                 <span className="text-gray-500"> Following</span>
               </div>
               <div className="text-center px-3">
-                <span className="font-bold text-white">{user.ufollowers} </span>
+                <span className="font-bold text-white">{ufolloewers} </span>
                 <span className="text-gray-500"> Followers</span>
               </div>
               <div className="text-center px-3">
-                <span className="font-bold text-white">{user.popularity} </span>
+                <span className="font-bold text-white">{popularity} </span>
                 <span className="text-gray-500"> Popularity</span>
               </div>
             </div>
@@ -198,7 +227,7 @@ function Profile({ accountId }: { accountId: string }) {
                 colors={["#865DFF", "#FFA3FD"]}
                 needleColor="#865DFF"
                 needleBaseColor="#865DFF"
-                percent={user.kind}
+                percent={kind/100}
                 formatTextValue={(value) => value + "% Kind"}
               />
               <GaugeChart
@@ -207,7 +236,7 @@ function Profile({ accountId }: { accountId: string }) {
                 colors={["#865DFF", "#FFA3FD"]}
                 needleColor="#865DFF"
                 needleBaseColor="#865DFF"
-                percent={user.funny}
+                percent={funny/100}
                 formatTextValue={(value) => value + "% Funny"}
               />
             </div>
@@ -218,7 +247,7 @@ function Profile({ accountId }: { accountId: string }) {
                 colors={["#865DFF", "#FFA3FD"]}
                 needleColor="#865DFF"
                 needleBaseColor="#865DFF"
-                percent={user.sad}
+                percent={sad/100}
                 formatTextValue={(value) => value + "% Sad"}
               />
               <GaugeChart
@@ -227,7 +256,7 @@ function Profile({ accountId }: { accountId: string }) {
                 colors={["#865DFF", "#FFA3FD"]}
                 needleColor="#865DFF"
                 needleBaseColor="#865DFF"
-                percent={user.angry}
+                percent={angry/100}
                 formatTextValue={(value) => value + "% Angry"}
               />
             </div>
