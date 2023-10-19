@@ -6,7 +6,6 @@ type ResponseData = {
 };
 interface GenereateNextApiRequest extends NextApiRequest{
   body:{
-      userid:string;
       prompt:string;
       kind: number,
       sad: number,

@@ -83,6 +83,7 @@ function Profile({ accountId }: { accountId: string }) {
         setkind(data[0].kind)
         setsad(data[0].sad)
         setangry(data[0].angry)
+        setfunny(data[0].funny)
 
 
       }
@@ -155,7 +156,7 @@ function Profile({ accountId }: { accountId: string }) {
                   
               </h2>
               <p className="text-sm leading-6 font-medium text-gray-600">
-                {uhandle}
+                @{uhandle}
               </p>
             </div>
             <div className="mt-3">
