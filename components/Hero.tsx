@@ -6,103 +6,28 @@ import {
   NetworkType,
 } from "@cityofzion/wallet-connect-sdk-react";
 
-const networks: Record<NetworkType, { name: string }> = {
-  "neo3:mainnet": {
-    name: "MainNet",
-  },
-  "neo3:testnet": {
-    name: "TestNet",
-  },
-  "neo3:private": {
-    name: "Private Network",
-  },
-};
 function Hero() {
-  const [dappUri, setDappUri] = useState("");
   const [response, setResponse] = useState("");
   const wcSdk = useWalletConnect();
   const [networkType, setNetworkType] = useState<NetworkType>("neo3:testnet");
   const router = useRouter();
   async function signIn() {
-    console.log("hello");
+    console.log("signing in");
     if (!wcSdk.isConnected()) {
+      console.log("not connected");
       await wcSdk.connect(networkType, [
         "invokeFunction",
         "testInvoke",
-        "signMessage",
-        "verifyMessage",
-        "traverseIterator",
         "getWalletInfo",
-        "getNetworkVersion",
-        "decrypt",
-        "encrypt",
-        "decryptFromArray",
       ]);
+      console.log("connected");
       wcSdk.isConnected() && router.push("/home");
     } else {
+      console.log("already connected");
+
       wcSdk.isConnected() && router.push("/home");
     }
   }
-  const getUri = async (): Promise<void> => {
-    const { uri, approval } = await wcSdk.createConnection("neo3:testnet", [
-      "invokeFunction",
-      "testInvoke",
-      "signMessage",
-      "verifyMessage",
-      "traverseIterator",
-      "getWalletInfo",
-      "getNetworkVersion",
-      "decrypt",
-      "encrypt",
-      "decryptFromArray",
-    ]);
-    if (uri) {
-      setDappUri(uri);
-      await navigator.clipboard.writeText(uri);
-      const session = await approval();
-      wcSdk.setSession(session);
-    }
-  };
-  const disconnect = async (): Promise<void> => {
-    await wcSdk.disconnect();
-  };
-
-  const getMyBalance = async (): Promise<void> => {
-    const resp = await wcSdk.testInvoke({
-      invocations: [
-        {
-          scriptHash: "0xd2a4cff31913016155e38e474a2c06d08be276cf",
-          operation: "balanceOf",
-          args: [{ type: "Hash160", value: wcSdk.getAccountAddress() ?? "" }],
-        },
-      ],
-      signers: [{ scopes: 1 }],
-    });
-
-    console.log(resp);
-    setResponse(JSON.stringify(resp, null, 2));
-  };
-
-  const transferGas = async (): Promise<void> => {
-    const resp = await wcSdk.invokeFunction({
-      invocations: [
-        {
-          scriptHash: "0xd2a4cff31913016155e38e474a2c06d08be276cf",
-          operation: "transfer",
-          args: [
-            { type: "Hash160", value: wcSdk.getAccountAddress() ?? "" },
-            { type: "Hash160", value: "NbnjKGMBJzJ6j5PHeYhjJDaQ5Vy5UYu4Fv" },
-            { type: "Integer", value: "100000000" },
-            { type: "Array", value: [] },
-          ],
-        },
-      ],
-      signers: [{ scopes: 1 }],
-    });
-
-    console.log(resp);
-    window.alert(JSON.stringify(resp, null, 2));
-  };
 
   return (
     <section className="pt-10   bg-gray-900 h-full  w-full">

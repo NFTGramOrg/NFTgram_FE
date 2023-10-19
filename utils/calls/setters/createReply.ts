@@ -1,19 +1,22 @@
 import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
-import { NFT_ACCOUNTS_SCRIPT_HASH, NFT_SCRIPT_HASH } from "../constants";
+import { NFT_ACCOUNTS_SCRIPT_HASH } from "../../constants";
 
-const follow = async (
-  followerAccountId: string,
-  followingAccountId: string
+const createReply = async (
+  accountId: string,
+  prompt: string,
+  replyId: string
 ): Promise<void> => {
   const wcSdk = useWalletConnect();
   const resp = await wcSdk.invokeFunction({
     invocations: [
       {
         scriptHash: NFT_ACCOUNTS_SCRIPT_HASH,
-        operation: "follow",
+        operation: "post",
         args: [
-          { type: "ByteArray", value: followerAccountId },
-          { type: "ByteArray", value: followingAccountId },
+          { type: "ByteArray", value: accountId },
+          { type: "String", value: prompt },
+          { type: "Boolean", value: true },
+          { type: "ByteArray", value: replyId },
         ],
       },
     ],
@@ -23,4 +26,4 @@ const follow = async (
   console.log(resp);
   window.alert(JSON.stringify(resp, null, 2));
 };
-export default follow;
+export default createReply;
