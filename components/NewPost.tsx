@@ -3,18 +3,20 @@ import React from "react";
 import useState from "react-usestateref";
 const NFTS = [
   {
-    nftname: "Bored Ape 1",
-    nftid: "0",
+    id: 1,
+    nftname: "pikachu",
+    nftid: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
   },
   {
-    nftname: "Bored Ape 2",
-    nftid: "3",
+    id: 2,
+    nftname: "dragonite",
+    nftid: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
   },
 ];
 function NewPost() {
   const [input, setInput] = useState("");
   const [value, setValue] = useState("");
-  const [buttondisabled, setDsiabled] = useState(true);
+  const [buttondisabled, setDisabled] = useState(true);
   // const [loading,setLoading]=useState(false);
   const callApi = async (input: string) => {
     // setLoading(true);
@@ -64,17 +66,28 @@ function NewPost() {
               htmlFor="countries"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Select Your NFT
+              Select Your Account
             </label>
             <select
               id="countries"
               className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
-              onChange={() => setDsiabled(false)}
+              onChange={(e) => {
+                e.target.value != "Choose Your NFT"
+                  ? setDisabled(false)
+                  : setDisabled(true);
+                console.log(e.target.value);
+              }}
             >
-              <option defaultValue={1}>Choose Your NFT</option>
+              <option defaultValue={0} className="font-semibold">
+                Choose Your NFT
+              </option>
               {NFTS.map((item) => (
-                <option value={item.nftid} key={item.nftid}>
-                  {item.nftname}
+                <option
+                  value={item.id}
+                  key={item.nftid}
+                  className="font-semibold"
+                >
+                  {item.nftname}&nbsp;({item.nftid})
                 </option>
               ))}
             </select>

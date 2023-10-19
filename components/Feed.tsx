@@ -2,10 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { BsChat, BsDot } from "react-icons/bs";
-import {BiHappyAlt} from "react-icons/bi";
-import {BiAngry} from "react-icons/bi"
-import {BiSad} from "react-icons/bi"
-import {FaRegLaughSquint} from "react-icons/fa"
+import { BiHappyAlt } from "react-icons/bi";
+import { BiAngry } from "react-icons/bi";
+import { BiSad } from "react-icons/bi";
+import { FaRegLaughSquint } from "react-icons/fa";
 
 interface FeedProps {
   name: string;
@@ -15,7 +15,7 @@ interface FeedProps {
   contentimageurl?: string;
 }
 
-function Feed({ name, id, image, content,contentimageurl }: FeedProps) {
+function Feed({ name, id, image, content, contentimageurl }: FeedProps) {
   return (
     <div className="flex flex-col ">
       <Link href="/post">
@@ -26,7 +26,7 @@ function Feed({ name, id, image, content,contentimageurl }: FeedProps) {
                 <div className="w-10 h-10 bg-slate-200 rounded-full ">
                   <Image
                     className="rounded-full"
-                    src={image||""}
+                    src={image || ""}
                     alt=""
                     width={40}
                     height={40}
@@ -42,21 +42,21 @@ function Feed({ name, id, image, content,contentimageurl }: FeedProps) {
             </div>
             <div className="text-white text-sm">{content}</div>
             {/* <div className={`bg-slate-400 aspect-square w-full h-96 rounded-xl`}></div> */}
-            {contentimageurl&&
-               (
-                <div className={`bg-slate-400 aspect-square w-full h-96 rounded-xl`}>
-                  <Image
-                    className="rounded-xl"
-                    src={contentimageurl}
-                    alt=""
-                    width={500}
-                    height={500}
-                  />
-                </div>
-              )
-            }
-            <div className="flex items-center justify-start space-x-5 mt-2 w-full">
-              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+            {contentimageurl && (
+              <div
+                className={`bg-slate-400 aspect-square w-full h-96 rounded-xl`}
+              >
+                <Image
+                  className="rounded-xl"
+                  src={contentimageurl}
+                  alt=""
+                  width={500}
+                  height={500}
+                />
+              </div>
+            )}
+            <div className="flex items-center mx-auto justify-between  mt-2 w-[90%]">
+              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer ">
                 <BsChat />
               </div>
               <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">

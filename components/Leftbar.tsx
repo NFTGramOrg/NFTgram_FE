@@ -37,12 +37,16 @@ const Leftbar = () => {
 
   useEffect(() => {
     (async function () {
-      const neo = await getNeoBalance(wcSdk);
-      console.log(neo.substring(0, 3));
-      setNeoBalance(neo);
-      const gas = await getGasBalance(wcSdk);
-      console.log(gas.substring(0, 3));
-      setGasBalance(gas.substring(0, 3));
+      if (wcSdk.isConnected()) {
+        const neo = await getNeoBalance(wcSdk);
+        console.log(neo.substring(0, 3));
+        setNeoBalance(neo);
+        const gas = await getGasBalance(wcSdk);
+        console.log(gas.substring(0, 3));
+        setGasBalance(gas.substring(0, 3));
+      } else {
+        console.log("disconnected!!!");
+      }
     })();
   }, []);
 
