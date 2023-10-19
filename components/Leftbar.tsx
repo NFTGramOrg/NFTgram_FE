@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import getNeoBalance from "@/utils/calls/getters/getNeoBalance";
 import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
+import getGasBalance from "@/utils/calls/getters/getGasBalance";
 const NAVIGATION_ITEMS = [
   {
     title: "Home",
@@ -37,7 +38,11 @@ const Leftbar = () => {
   useEffect(() => {
     (async function () {
       const neo = await getNeoBalance(wcSdk);
-      console.log(neo);
+      console.log(neo.substring(0, 3));
+      setNeoBalance(neo);
+      const gas = await getGasBalance(wcSdk);
+      console.log(gas.substring(0, 3));
+      setGasBalance(gas.substring(0, 3));
     })();
   }, []);
 
@@ -101,8 +106,10 @@ const Leftbar = () => {
               alt=""
               className="flex align-items-center flex-col mx-auto rounded-lg bg-white p-1"
             ></Image>
-            <p className="text-xs mt-1">101.6757652</p>
-            <p className="text-xs font-semibold">NEO</p>
+            <p className="text-xs mt-1">
+              {neoBalance}&nbsp;
+              <span className="text-xs font-semibold">NEO</span>
+            </p>
           </div>
           <div>
             <Image
@@ -114,8 +121,10 @@ const Leftbar = () => {
               alt=""
               className="flex align-items-center flex-col mx-auto rounded-lg bg-white p-1"
             ></Image>
-            <p className="text-xs mt-1">101.2</p>
-            <p className="text-xs font-semibold">GAS</p>
+            <p className="text-xs mt-1">
+              {gasBalance}&nbsp;
+              <span className="text-xs font-semibold">GAS</span>
+            </p>
           </div>
         </div>
       </button>

@@ -14,17 +14,20 @@ function Hero() {
   const router = useRouter();
 
   async function signIn() {
-    console.log("signing in");
+    console.log("creating connection");
     const { uri, approval } = await wcSdk.createConnection("neo3:testnet", [
       "invokeFunction",
       "testInvoke",
     ]);
+
     if (uri) {
       setDappUri(uri);
       console.log("URI: ", uri);
-      await navigator.clipboard.writeText(uri);
+      window.open(`https://neon.coz.io/connect?uri=${uri}`, "_blank")?.focus();
       const session = await approval();
+      console.log("Session: ", session);
       wcSdk.setSession(session);
+      router.push("/home");
     }
   }
 
