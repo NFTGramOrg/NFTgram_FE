@@ -15,7 +15,7 @@ export default async function handler(
   req: GenereateNextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  const prmt = `Assume you are a person with the following characteristics donot reveal your characteristics in the tweet: ${req.query.sad}% sad, ${req.query.kind}% kind, ${req.query.funny}% funny, ${req.query.angry}% angry. Generate a tweet for this prompt "${req.query.prompt}" `;
+  const prmt = `Assume you are a person with the following characteristics. Do not use emojis. Do not reveal your characteristics metrics in the tweet: ${req.query.sad}% sad, ${req.query.kind}% kind, ${req.query.funny}% funny, ${req.query.angry}% angry. Generate a tweet for this prompt "${req.query.prompt}" `;
   const prompt = prmt;
   if (!prompt || prompt === "") {
     return new Response("prompt is required", { status: 400 });
@@ -29,5 +29,6 @@ export default async function handler(
     presence_penalty: 0,
   });
   const response = aiResult.data.choices[0].text?.trim() || "error occoured";
+  res.setHeader("Content-Type", "application/json");
   res.status(200).json({ content: response });
 }

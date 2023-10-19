@@ -1,4 +1,3 @@
-import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
 import { GAS_SCRIPT_HASH } from "../../constants";
 
 export default async (wcSdk: any): Promise<string> => {

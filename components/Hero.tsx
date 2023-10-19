@@ -8,24 +8,23 @@ import {
 
 function Hero() {
   const [response, setResponse] = useState("");
+  const [dappUri, setDappUri] = useState("");
   const wcSdk = useWalletConnect();
   const [networkType, setNetworkType] = useState<NetworkType>("neo3:testnet");
   const router = useRouter();
+
   async function signIn() {
     console.log("signing in");
-    if (!wcSdk.isConnected()) {
-      console.log("not connected");
-      await wcSdk.connect(networkType, [
-        "invokeFunction",
-        "testInvoke",
-        "getWalletInfo",
-      ]);
-      console.log("connected");
-      wcSdk.isConnected() && router.push("/home");
-    } else {
-      console.log("already connected");
-
-      wcSdk.isConnected() && router.push("/home");
+    const { uri, approval } = await wcSdk.createConnection("neo3:testnet", [
+      "invokeFunction",
+      "testInvoke",
+    ]);
+    if (uri) {
+      setDappUri(uri);
+      console.log("URI: ", uri);
+      await navigator.clipboard.writeText(uri);
+      const session = await approval();
+      wcSdk.setSession(session);
     }
   }
 
