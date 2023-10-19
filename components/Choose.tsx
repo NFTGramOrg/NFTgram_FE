@@ -89,6 +89,7 @@ function Choose() {
         <div className="flex flex-row space-x-4">
           {nfts.map((nft, id) => (
             <div
+              key={id}
               className="flex flex-col  bg-slate-200 rounded-l cursor-pointer"
               onClick={() => {
                 (async function () {

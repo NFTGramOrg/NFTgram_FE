@@ -48,6 +48,7 @@ const Leftbar = () => {
         console.log("disconnected!!!");
       }
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

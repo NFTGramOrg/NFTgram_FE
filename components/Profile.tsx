@@ -96,6 +96,7 @@ function Profile({ accountId }: { accountId: string }) {
         console.log("Not connected");
       }
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div>

@@ -61,6 +61,7 @@ function NewPost() {
       .insert([
         { userid:`${nftid}`,prompt:`${prompt}`, gen:`${value}` },
       ]).select(): { data: null, error: new Error('Supabase client is not initialized') };})();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);  
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
