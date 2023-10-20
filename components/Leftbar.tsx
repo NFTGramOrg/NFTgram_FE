@@ -15,7 +15,7 @@ const NAVIGATION_ITEMS = [
     icon: BiHomeCircle,
   },
   {
-    title: "My NFT",
+    title: "Profile",
     link: "profile",
     icon: BiUser,
   },
@@ -48,7 +48,7 @@ const Leftbar = () => {
         console.log("disconnected!!!");
       }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,12 +1,16 @@
 import createAccount from "@/utils/calls/setters/createAccount";
+import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { useState, useEffect } from "react";
 
+const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 function Choose() {
   const wcSdk = useWalletConnect();
   const [newAccount, setNewAccount] = useState([]);
+  const [yourAccounts, setYourAccounts] = useState<any>([]);
   const accounts = [
     {
       id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
@@ -42,20 +46,42 @@ function Choose() {
       image: "https://randompokemon.com/sprites/normal/solrock.png",
     },
   ];
+
+  useEffect(() => {
+    (async function () {
+      const walletAddress =
+        wcSdk.getAccountAddress() || "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR";
+      console.log(walletAddress);
+      const { data, error } = supabase
+        ? await supabase
+            .from("profile")
+            .select("*")
+            .eq("wallet_address", walletAddress)
+        : { data: null, error: new Error("supabase not initialized") };
+
+      if (error) {
+        console.log("ERROR!!");
+        console.log(error);
+      }
+      console.log(data);
+      setYourAccounts(data || []);
+    })();
+  }, []);
+
   return (
     <div className="overflow-x-hidden">
-      <p className="text-2xl font-bold my-4">Your Accounts</p>
-      {accounts.length == 0 ? (
-        <p className="text-lg font-semibold text-gray-400 text-center">
+      <p className="text-2xl font-bold mt-4 mb-8">Your Accounts</p>
+      {yourAccounts.length == 0 ? (
+        <p className="text-lg font-semibold text-gray-400 text-center mb-16">
           No Accounts
         </p>
       ) : (
-        <div className="flex flex-row space-x-4">
-          {accounts.map((account, id) => (
-            <Link href={"/profile/" + account.id} key={id}>
+        <div className="flex flex-row space-x-4 mb-16">
+          {yourAccounts.map((account, id) => (
+            <Link href={"/profile/" + account.userid} key={id}>
               <div className="flex flex-col  bg-slate-200 rounded-l">
                 <Image
-                  src={account.image}
+                  src={account.profilepic}
                   height={200}
                   width={200}
                   alt=""
@@ -69,9 +95,9 @@ function Choose() {
                   {account.name}
                 </p>
                 <p className="font-bold pl-2 text-black text-center">
-                  {account.id.substring(0, 4) +
+                  {account.userid.substring(0, 4) +
                     "..." +
-                    account.id.substring(account.id.length - 4)}
+                    account.userid.substring(account.userid.length - 4)}
                 </p>
               </div>
             </Link>

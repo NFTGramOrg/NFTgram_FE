@@ -3,57 +3,76 @@ import Leftbar from "@/components/Leftbar";
 import NewPost from "@/components/NewPost";
 import Rightsection from "@/components/Rightsection";
 import React from "react";
+import { createClient } from "@supabase/supabase-js";
+import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
+
 const Home = () => {
-  const placeholderContent = [
-    {
-      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
-      name: "granbull",
-      content:
-        "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
-      image: "https://randompokemon.com/sprites/normal/granbull.png",
-    },
-    {
-      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-      name: "machop",
-      content:
-        "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
-      image: "https://randompokemon.com/sprites/normal/machop.png",
-      contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
-      
-    },
-    {
-      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
-      name: "granbull",
-      content:
-        "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
-      image: "https://randompokemon.com/sprites/normal/granbull.png",
-    },
-    {
-      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-      name: "machop",
-      content:
-        "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
-      image: "https://randompokemon.com/sprites/normal/machop.png",
-      contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
-      
-    },
-    {
-      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
-      name: "granbull",
-      content:
-        "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
-      image: "https://randompokemon.com/sprites/normal/granbull.png",
-    },
-    {
-      id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-      name: "machop",
-      content:
-        "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
-      image: "https://randompokemon.com/sprites/normal/machop.png",
-      contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
-      
-    },
-  ];
+  const [posts, setPosts] = React.useState<any>([]);
+  React.useEffect(() => {
+    console.log("Creating client");
+    const supabase = SUPABASE_URL
+      ? createClient(SUPABASE_URL, SUPABASE_KEY)
+      : null;
+
+    (async function () {
+      const { data, error } = supabase
+        ? await supabase.from("tweets").select("*,profile(*)")
+        : { data: null, error: new Error("supabase not initialized") };
+      if (error) {
+        console.log("ERROR!!");
+        console.log(error);
+      }
+      console.log(data);
+      setPosts(data || []);
+    })();
+  }, []);
+  // const placeholderContent = [
+  //   {
+  //     id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
+  //     name: "granbull",
+  //     content:
+  //       "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
+  //     image: "https://randompokemon.com/sprites/normal/granbull.png",
+  //   },
+  //   {
+  //     id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+  //     name: "machop",
+  //     content:
+  //       "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
+  //     image: "https://randompokemon.com/sprites/normal/machop.png",
+  //     contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
+  //   },
+  //   {
+  //     id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
+  //     name: "granbull",
+  //     content:
+  //       "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
+  //     image: "https://randompokemon.com/sprites/normal/granbull.png",
+  //   },
+  //   {
+  //     id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+  //     name: "machop",
+  //     content:
+  //       "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
+  //     image: "https://randompokemon.com/sprites/normal/machop.png",
+  //     contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
+  //   },
+  //   {
+  //     id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
+  //     name: "granbull",
+  //     content:
+  //       "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
+  //     image: "https://randompokemon.com/sprites/normal/granbull.png",
+  //   },
+  //   {
+  //     id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
+  //     name: "machop",
+  //     content:
+  //       "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
+  //     image: "https://randompokemon.com/sprites/normal/machop.png",
+  //     contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
+  //   },
+  // ];
   return (
     <div className="w-full h-full flex justify-center items-center relative bg-bgcolor">
       <div className=" max-w-screen-2xl w-full h-full flex relative">
@@ -63,14 +82,17 @@ const Home = () => {
             Home
           </h1>
           <NewPost />
-          {placeholderContent.map((post, index) => (
+          {posts.map((post, index) => (
             <Feed
               key={index}
-              id={post.id}
-              name={post.name}
-              content={post.content}
+              name={post.profile.username}
+              postId={post.id}
+              userId={post.userid}
+              userImage={post.profile.profilepic}
               image={post.image}
-              contentimageurl={post.contentimageurl}
+              content={post.gen}
+              createdAt={post.created_at}
+              reactions={[post.happy, post.sad, post.angry, post.love]}
             />
           ))}
         </main>
