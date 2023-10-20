@@ -9,39 +9,7 @@ import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { SUPABASE_URL, SUPABASE_KEY } from "@/utils/constants";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-const NFTS = [
-  {
-    nftname: "granbull",
-    nftid: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
-  },
-  {
-    nftname: "machop",
-    nftid: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-  },
-];
-const placeholderContent = [
-  {
-    id: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
-    name: "granbull",
-    content:
-      "🌟 Just discovered a hidden gem of a cafe in my neighborhood. The latte art here is on point, and the pastries are divine! 😍☕ #LocalEats #CoffeeLover",
-    image: "https://randompokemon.com/sprites/normal/granbull.png",
-  },
-  {
-    id: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-    name: "machop",
-    content:
-      "🚀 Exciting news! I've officially booked my tickets for that long-awaited vacation. Time to dust off the suitcase and get ready for some adventure! ✈️🌴 #Wanderlust",
-    image: "https://randompokemon.com/sprites/normal/machop.png",
-  },
-  {
-    id: "knTsgQbdk0dFAPeagUAZxxvO8eJcl",
-    name: "geodude",
-    content: "Yo check this pic out",
-    image: "https://randompokemon.com/sprites/normal/geodude.png",
-    contentimageurl: "https://randompokemon.com/sprites/normal/machop.png",
-  },
-];
+
 function Profile({ accountId }: { accountId: string }) {
   const [account, setAccount] = useState({});
   const [accounts, setAccounts] = useState<any>([]);
@@ -55,11 +23,7 @@ function Profile({ accountId }: { accountId: string }) {
       const { data, error } = supabase
         ? await supabase
             .from("profile")
-            .select(
-              `
-            *
-        `
-            )
+            .select(`*`)
             .eq("userid", accountId || "ynTsgQbdk0dFAPeygUAZxvO8eJcC")
         : {
             data: null,
@@ -154,15 +118,19 @@ function Profile({ accountId }: { accountId: string }) {
                 <select
                   id="countries"
                   className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
-                  onChange={(e) => {}}
+                  onChange={(e) => {
+                    // console.log(e.target.value);
+                    if (e.target.value != "Choose Your Account")
+                      router.push("/profile/" + e.target.value);
+                  }}
                 >
                   <option defaultValue={0} className="font-semibold">
                     Choose Your Account
                   </option>
-                  {accounts.map((item) => (
+                  {accounts.map((item, index) => (
                     <option
-                      value={item.nftid}
-                      key={item.nftid}
+                      value={item.userid}
+                      key={index}
                       className="font-semibold"
                     >
                       {item.username}&nbsp;({item.userid})
@@ -239,13 +207,13 @@ function Profile({ accountId }: { accountId: string }) {
                 </div>
                 <div className="text-center px-3">
                   <span className="font-bold text-white">
-                    {selectedAccount && selectedAccount.followers}{" "}
+                    {selectedAccount && selectedAccount.followers}
                   </span>
                   <span className="text-gray-500"> Followers</span>
                 </div>
                 <div className="text-center px-3">
                   <span className="font-bold text-white">
-                    {selectedAccount && selectedAccount.popularity}{" "}
+                    {selectedAccount && selectedAccount.popularity}
                   </span>
                   <span className="text-gray-500"> Popularity</span>
                 </div>
@@ -259,9 +227,7 @@ function Profile({ accountId }: { accountId: string }) {
                   colors={["#865DFF", "#FFA3FD"]}
                   needleColor="#865DFF"
                   needleBaseColor="#865DFF"
-                  percent={
-                    selectedAccount.length > 0 ? selectedAccount.kind / 100 : 0
-                  }
+                  percent={selectedAccount && selectedAccount.kind / 100}
                   formatTextValue={(value) => value + "% Kind"}
                 />
                 <GaugeChart
@@ -270,9 +236,7 @@ function Profile({ accountId }: { accountId: string }) {
                   colors={["#865DFF", "#FFA3FD"]}
                   needleColor="#865DFF"
                   needleBaseColor="#865DFF"
-                  percent={
-                    selectedAccount.length > 0 ? selectedAccount.funny / 100 : 0
-                  }
+                  percent={selectedAccount && selectedAccount.funny / 100}
                   formatTextValue={(value) => value + "% Funny"}
                 />
               </div>
@@ -283,9 +247,7 @@ function Profile({ accountId }: { accountId: string }) {
                   colors={["#865DFF", "#FFA3FD"]}
                   needleColor="#865DFF"
                   needleBaseColor="#865DFF"
-                  percent={
-                    selectedAccount.length > 0 ? selectedAccount.sad / 100 : 0
-                  }
+                  percent={selectedAccount && selectedAccount.sad / 100}
                   formatTextValue={(value) => value + "% Sad"}
                 />
                 <GaugeChart
@@ -294,9 +256,7 @@ function Profile({ accountId }: { accountId: string }) {
                   colors={["#865DFF", "#FFA3FD"]}
                   needleColor="#865DFF"
                   needleBaseColor="#865DFF"
-                  percent={
-                    selectedAccount.length > 0 ? selectedAccount.angry / 100 : 0
-                  }
+                  percent={selectedAccount && selectedAccount.angry / 100}
                   formatTextValue={(value) => value + "% Angry"}
                 />
               </div>

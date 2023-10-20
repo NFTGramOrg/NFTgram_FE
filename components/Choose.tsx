@@ -6,7 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
 
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-function Choose() {
+function Choose({ neoline, neolineN3 }) {
   const [tranDone, setTranDone] = useState(false);
   const [newAccount, setNewAccount] = useState([]);
   const [yourAccounts, setYourAccounts] = useState<any>([]);
@@ -37,8 +37,8 @@ function Choose() {
 
   const nfts = [
     {
-      name: "alcremie",
-      image: "https://randompokemon.com/sprites/normal/alcremie.png",
+      name: "bean",
+      image: "/bean.jpg",
     },
     {
       name: "solrock",
@@ -101,30 +101,30 @@ function Choose() {
               </div>
             </Link>
           ))}
-          {tranDone == true && (
-            <Link href={"/profile/ynTsgQbdk0dFAPeygUAZxvO8eJcH"} key={6}>
-              <div
-                key={6}
-                className="flex flex-col  bg-slate-200 rounded-lg cursor-pointer"
-              >
-                <Image
-                  src={nfts[0].image}
-                  height={200}
-                  width={200}
-                  alt=""
-                ></Image>
-                <div className="h-[1px] bg-black mx-1" />
+          {/* {tranDone == true && (
+              <Link href={"/profile/ynTsgQbdk0dFAPeygUAZxvO8eJcH"} key={6}>
+                <div
+                  key={6}
+                  className="flex flex-col  bg-slate-200 rounded-lg cursor-pointer"
+                >
+                  <Image
+                    src={nfts[0].image}
+                    height={200}
+                    width={200}
+                    alt=""
+                  ></Image>
+                  <div className="h-[1px] bg-black mx-1" />
 
-                <p className="font-bold pl-2 text-black text-center">
-                  {"ynTsgQbdk0dFAPeygUAZxvO8eJcH".substring(0, 4) +
-                    "..." +
-                    "ynTsgQbdk0dFAPeygUAZxvO8eJcH".substring(
-                      "ynTsgQbdk0dFAPeygUAZxvO8eJcH".length - 4
-                    )}
-                </p>
-              </div>
-            </Link>
-          )}
+                  <p className="font-bold pl-2 text-black text-center">
+                    {"ynTsgQbdk0dFAPeygUAZxvO8eJcH".substring(0, 4) +
+                      "..." +
+                      "ynTsgQbdk0dFAPeygUAZxvO8eJcH".substring(
+                        "ynTsgQbdk0dFAPeygUAZxvO8eJcH".length - 4
+                      )}
+                  </p>
+                </div>
+              </Link>
+            )} */}
         </div>
       )}
       <p className="text-2xl font-bold my-4">
@@ -171,44 +171,42 @@ function Choose() {
                 onClick={() => {
                   (async function () {
                     try {
-                      // const newAccount = await createAccount(wcSdk, "Bg==");
-                      // console.log(newAccount);
+                      await createAccount(neolineN3, "Bw==");
+                      const { data, error } = supabase
+                        ? await supabase
+                            .from("profile")
+                            .insert([
+                              {
+                                id: 6,
+                                userid: "ynTsgQbdk0dFAPeygUAZxvO8eJcH",
+                                username: `${nft.name}`,
+                                profilepic: `${nft.image}`,
+                                desc: "I like Burrittoss <3!",
+                                wallet_address:
+                                  "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR",
+                                followers: 0,
+                                following: 0,
+                                kind: 54,
+                                funny: 97,
+                                sad: 1,
+                                angry: 32,
+                                popularity: 0,
+                              },
+                            ])
+                            .select()
+                        : {
+                            data: null,
+                            error: new Error(
+                              "Supabase client is not initialized"
+                            ),
+                          };
+                      console.log(data);
+                      setTimeout(() => {
+                        setTranDone(true);
+                      }, 2000);
                     } catch (e) {
                       console.log(e);
                     }
-
-                    const { data, error } = supabase
-                      ? await supabase
-                          .from("profile")
-                          .insert([
-                            {
-                              id: 6,
-                              userid: "ynTsgQbdk0dFAPeygUAZxvO8eJcH",
-                              username: `${nft.name}`,
-                              profilepic: `${nft.image}`,
-                              desc: "Vanilla Icreammm <3!",
-                              wallet_address:
-                                "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR",
-                              followers: 0,
-                              following: 0,
-                              kind: 0,
-                              funny: 0,
-                              sad: 0,
-                              angry: 0,
-                              popularity: 0,
-                            },
-                          ])
-                          .select()
-                      : {
-                          data: null,
-                          error: new Error(
-                            "Supabase client is not initialized"
-                          ),
-                        };
-                    console.log(data);
-                    setTimeout(() => {
-                      setTranDone(true);
-                    }, 2000);
                   })();
                 }}
               >

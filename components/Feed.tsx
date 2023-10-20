@@ -59,11 +59,11 @@ function Feed({
                 className={`bg-slate-400 aspect-square w-full h-96 rounded-xl`}
               >
                 <Image
-                  className="rounded-xl"
                   src={image}
                   alt=""
                   width={500}
                   height={500}
+                  className="rounded-xl image max-w-full max-h-full mx-auto"
                 />
               </div>
             )}

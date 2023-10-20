@@ -27,6 +27,8 @@ const createPost = async (
         },
       ],
     });
+    console.log("Tx Hash: " + post.txid);
+
     window.alert("Post created successfully!\n Transaction Hash: " + post.txid);
   } catch (er) {
     console.log(er);
