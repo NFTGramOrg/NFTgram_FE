@@ -4,7 +4,6 @@ import Feed from "./Feed";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import getAccount from "@/utils/calls/getters/getAccount";
-import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
 const GaugeChart = dynamic(() => import("react-gauge-chart"), { ssr: false });
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
@@ -47,7 +46,6 @@ function Profile({ accountId }: { accountId: string }) {
   const [account, setAccount] = useState({});
   const [accounts, setAccounts] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
-  const wcSdk = useWalletConnect();
   const router = useRouter();
   const [selectedAccount, setSelectedAccount] = useState<any>(null);
 
@@ -76,14 +74,14 @@ function Profile({ accountId }: { accountId: string }) {
         console.log("Seleceted Account not fetched");
         // router.push("/404");
       }
-      if (wcSdk.isConnected()) {
-        console.log("is connected");
-        // const fetchedAccount = await getAccount(wcSdk, accountId);
-        // console.log(fetchedAccount);
-        // setAccount(fetchedAccount);
-      } else {
-        console.log("Not connected");
-      }
+      // if (wcSdk.isConnected()) {
+      //   console.log("is connected");
+      //   const fetchedAccount = await getAccount(wcSdk, accountId);
+      //   console.log(fetchedAccount);
+      //   setAccount(fetchedAccount);
+      // } else {
+      //   console.log("Not connected");
+      // }
     })();
 
     (async function () {
@@ -102,14 +100,14 @@ function Profile({ accountId }: { accountId: string }) {
     })();
 
     (async function () {
-      const walletAddress =
-        wcSdk.getAccountAddress() || "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR";
-      console.log(walletAddress);
+      // const walletAddress =
+      //   wcSdk.getAccountAddress() || "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR";
+      // console.log(walletAddress);
       const { data, error } = supabase
         ? await supabase
             .from("profile")
             .select("*")
-            .eq("wallet_address", walletAddress)
+            .eq("wallet_address", "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR")
         : { data: null, error: new Error("supabase not initialized") };
 
       if (error) {
@@ -141,7 +139,7 @@ function Profile({ accountId }: { accountId: string }) {
               <div className=" mt-[-4rem]">
                 <div className="height:9rem width:9rem md rounded-full relative avatar">
                   <Image
-                    className="md rounded-full relative border-4 border-gray-200"
+                    className="md rounded-full relative border-4 border-gray-200 bg-gray-100"
                     src={selectedAccount && selectedAccount.profilepic}
                     alt=""
                     width={100}

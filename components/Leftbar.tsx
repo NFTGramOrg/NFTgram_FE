@@ -5,9 +5,7 @@ import { BsBell, BsEnvelope, BsThreeDots } from "react-icons/bs";
 import { HiOutlineHashtag } from "react-icons/hi";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import getNeoBalance from "@/utils/calls/getters/getNeoBalance";
-import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
-import getGasBalance from "@/utils/calls/getters/getGasBalance";
+import getBalance from "@/utils/calls/getters/getBalance";
 const NAVIGATION_ITEMS = [
   {
     title: "Home",
@@ -30,26 +28,20 @@ const NAVIGATION_ITEMS = [
     icon: BsBell,
   },
 ];
-const Leftbar = () => {
+const Leftbar = ({ neoline, neolineN3 }) => {
   const [neoBalance, setNeoBalance] = useState<string>("0");
   const [gasBalance, setGasBalance] = useState<string>("0");
-  const wcSdk = useWalletConnect();
 
   useEffect(() => {
     (async function () {
-      if (wcSdk.isConnected()) {
-        const neo = await getNeoBalance(wcSdk);
-        console.log(neo.substring(0, 3));
+      if (neolineN3) {
+        const { gas, neo } = await getBalance(neolineN3);
         setNeoBalance(neo);
-        const gas = await getGasBalance(wcSdk);
-        console.log(gas.substring(0, 3));
-        setGasBalance(gas.substring(0, 3));
-      } else {
-        console.log("disconnected!!!");
+        setGasBalance(gas);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [neoline, neolineN3]);
 
   return (
     <section className="fixed w-72 flex flex-col items-stretch h-screen my-4 mr-5">

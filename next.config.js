@@ -5,6 +5,8 @@ const nextConfig = {
       "randompokemon.com",
       "avatars.githubusercontent.com",
       "cdn.neoline.io",
+      "labs.openai.com",
+      "imgv3.fotor.com",
     ],
   },
 };

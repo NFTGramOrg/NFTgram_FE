@@ -1,35 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import {
-  useWalletConnect,
-  NetworkType,
-} from "@cityofzion/wallet-connect-sdk-react";
 
 function Hero() {
   const [response, setResponse] = useState("");
   const [dappUri, setDappUri] = useState("");
-  const wcSdk = useWalletConnect();
-  const [networkType, setNetworkType] = useState<NetworkType>("neo3:testnet");
+  const [neoline, setNeoLine] = useState();
+  const [neolineN3, setNeoLineN3] = useState();
+  const [account, setAccount] = useState("");
   const router = useRouter();
 
   async function signIn() {
     console.log("creating connection");
-    const { uri, approval } = await wcSdk.createConnection("neo3:testnet", [
-      "invokeFunction",
-      "testInvoke",
-    ]);
+    // const { uri, approval } = await wcSdk.createConnection("neo3:testnet", [
+    //   "invokeFunction",
+    //   "testInvoke",
+    // ]);
 
-    if (uri) {
-      setDappUri(uri);
-      console.log("URI: ", uri);
-      window.open(`https://neon.coz.io/connect?uri=${uri}`, "_blank")?.focus();
-      const session = await approval();
-      console.log("Session: ", session);
-      wcSdk.setSession(session);
-      router.push("/home");
-    }
+    // if (uri) {
+    //   setDappUri(uri);
+    //   console.log("URI: ", uri);
+    //   window.open(`https://neon.coz.io/connect?uri=${uri}`, "_blank")?.focus();
+    //   const session = await approval();
+    //   console.log("Session: ", session);
+    //   wcSdk.setSession(session);
+    //   router.push("/home");
+    // }
   }
+
+  useEffect(() => {
+    window.addEventListener("NEOLine.NEO.EVENT.READY", () => {
+      setNeoLine(new window.NEOLineN3.Init());
+    });
+    window.addEventListener("NEOLine.N3.EVENT.READY", () => {
+      setNeoLineN3(new window.NEOLineN3.Init());
+    });
+  }, []);
+
+  const initNeolineAccount = async () => {
+    try {
+      const { address } = await neoline.getAccount();
+      setAccount(address);
+      router.push("/home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="pt-10   bg-gray-900 h-full  w-full">
@@ -61,17 +77,17 @@ function Hero() {
               <button
                 className="inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-secondary rounded-2xl sm:w-auto sm:mb-0"
                 onClick={() => {
-                  signIn();
+                  initNeolineAccount();
                 }}
               >
                 <Image
-                  src="/neonwallet.png"
+                  src="/neoline.jpeg"
                   width={40}
                   height={40}
                   alt=""
-                  className="mt-1"
+                  className="mt-1 mx-2 rounded-lg"
                 />
-                Sign in with Neon
+                Sign in with NeoLine
                 <svg
                   className="w-4 h-4 ml-1"
                   xmlns="http://www.w3.org/2000/svg"

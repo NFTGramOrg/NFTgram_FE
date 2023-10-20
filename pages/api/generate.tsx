@@ -1,41 +1,39 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, OpenAIApi } from "openai";
+import { createClient } from "@supabase/supabase-js";
+import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 
 type ResponseData = {
   content: string;
 };
-interface GenereateNextApiRequest extends NextApiRequest{
-  body:{
-      userid:string;
-      prompt:string;
-      kind: number,
-      sad: number,
-      funny: number,
-      angry: number
+interface GenereateNextApiRequest extends NextApiRequest {
+  query: {
+    prompt: string;
   };
 }
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
-})
+  apiKey: process.env.OPENAI_API_KEY,
+});
 const openai = new OpenAIApi(configuration);
 
 export default async function handler(
   req: GenereateNextApiRequest,
   res: NextApiResponse<ResponseData>
-){
-  const prmt =`Assume you are a person with the following characteristics donot reveal your characteristics in the tweet: ${req.body.sad}% sad, ${req.body.kind}% kind, ${req.body.funny}% funny, ${req.body.angry}% angry. Generate a tweet for this prompt "${req.body.prompt}" `
-  const prompt = prmt;
-  if(!prompt || prompt===""){
-      return new Response("prompt is required" , {status:400});
+) {
+  const supabase = SUPABASE_URL
+    ? createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+  const { prompt } = req.query;
+  console.log(prompt);
+
+  const { data, error } = supabase
+    ? await supabase.from("tweets").select("*").eq("prompt", prompt)
+    : { data: null, error: new Error("supabase not initialized") };
+  const account = data[0];
+  if (account) {
+    console.log("Found in db");
+    res.status(200).json({ content: account.gen });
+  } else {
+    res.status(200).json({ content: "No content" });
   }
-  const aiResult = await openai.createCompletion({
-      model:"gpt-3.5-turbo-instruct",
-      prompt: `${prompt}`,
-      temperature: 0.9,
-      max_tokens: 100,
-      frequency_penalty: 0.5,
-      presence_penalty: 0
-});
-const response = aiResult.data.choices[0].text?.trim() || "error occoured";
-res.status(200).json({content:response});
 }

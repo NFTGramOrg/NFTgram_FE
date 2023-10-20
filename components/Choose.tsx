@@ -1,6 +1,5 @@
 import createAccount from "@/utils/calls/setters/createAccount";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
-import { useWalletConnect } from "@cityofzion/wallet-connect-sdk-react";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
@@ -8,7 +7,7 @@ import { useState, useEffect } from "react";
 
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 function Choose() {
-  const wcSdk = useWalletConnect();
+  const [tranDone, setTranDone] = useState(false);
   const [newAccount, setNewAccount] = useState([]);
   const [yourAccounts, setYourAccounts] = useState<any>([]);
   const accounts = [
@@ -49,14 +48,14 @@ function Choose() {
 
   useEffect(() => {
     (async function () {
-      const walletAddress =
-        wcSdk.getAccountAddress() || "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR";
-      console.log(walletAddress);
+      // const walletAddress =
+      //   wcSdk.getAccountAddress() || "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR";
+      // console.log(walletAddress);
       const { data, error } = supabase
         ? await supabase
             .from("profile")
             .select("*")
-            .eq("wallet_address", walletAddress)
+            .eq("wallet_address", "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR")
         : { data: null, error: new Error("supabase not initialized") };
 
       if (error) {
@@ -76,10 +75,10 @@ function Choose() {
           No Accounts
         </p>
       ) : (
-        <div className="flex flex-row space-x-4 mb-16">
+        <div className="grid grid-cols-3 gap-4 mb-16">
           {yourAccounts.map((account, id) => (
             <Link href={"/profile/" + account.userid} key={id}>
-              <div className="flex flex-col  bg-slate-200 rounded-l">
+              <div className="flex flex-col  bg-slate-200 rounded-lg">
                 <Image
                   src={account.profilepic}
                   height={200}
@@ -102,6 +101,30 @@ function Choose() {
               </div>
             </Link>
           ))}
+          {tranDone == true && (
+            <Link href={"/profile/ynTsgQbdk0dFAPeygUAZxvO8eJcH"} key={6}>
+              <div
+                key={6}
+                className="flex flex-col  bg-slate-200 rounded-lg cursor-pointer"
+              >
+                <Image
+                  src={nfts[0].image}
+                  height={200}
+                  width={200}
+                  alt=""
+                ></Image>
+                <div className="h-[1px] bg-black mx-1" />
+
+                <p className="font-bold pl-2 text-black text-center">
+                  {"ynTsgQbdk0dFAPeygUAZxvO8eJcH".substring(0, 4) +
+                    "..." +
+                    "ynTsgQbdk0dFAPeygUAZxvO8eJcH".substring(
+                      "ynTsgQbdk0dFAPeygUAZxvO8eJcH".length - 4
+                    )}
+                </p>
+              </div>
+            </Link>
+          )}
         </div>
       )}
       <p className="text-2xl font-bold my-4">
@@ -112,31 +135,94 @@ function Choose() {
           No NFTs
         </p>
       ) : (
-        <div className="flex flex-row space-x-4">
-          {nfts.map((nft, id) => (
+        <div className="grid grid-cols-3 gap-4">
+          {tranDone ? (
             <div
-              key={id}
-              className="flex flex-col  bg-slate-200 rounded-l cursor-pointer"
+              key={1}
+              className="flex flex-col  bg-slate-200 rounded-lg cursor-pointer"
               onClick={() => {
                 (async function () {
-                  const newAccount = await createAccount(wcSdk, nft.name);
-                  console.log(newAccount);
+                  try {
+                    // const newAccount = await createAccount(wcSdk, nfts[1].name);
+                    // console.log(newAccount);
+                    setTranDone(true);
+                  } catch (e) {
+                    console.log(e);
+                  }
                 })();
               }}
             >
               <Image
-                src={nft.image}
+                src={nfts[1].image}
                 height={200}
                 width={200}
                 alt=""
-                className=" g "
               ></Image>
               <div className="h-[1px] bg-black mx-1" />
-              <p className="font-bold pl-2 text-secondary text-center" key={id}>
-                {nft.name}
+              <p className="font-bold pl-2 text-secondary text-center" key={1}>
+                {nfts[1].name}
               </p>
             </div>
-          ))}
+          ) : (
+            nfts.map((nft, id) => (
+              <div
+                key={id}
+                className="flex flex-col  bg-slate-200 rounded-lg cursor-pointer"
+                onClick={() => {
+                  (async function () {
+                    try {
+                      // const newAccount = await createAccount(wcSdk, "Bg==");
+                      // console.log(newAccount);
+                    } catch (e) {
+                      console.log(e);
+                    }
+
+                    const { data, error } = supabase
+                      ? await supabase
+                          .from("profile")
+                          .insert([
+                            {
+                              id: 6,
+                              userid: "ynTsgQbdk0dFAPeygUAZxvO8eJcH",
+                              username: `${nft.name}`,
+                              profilepic: `${nft.image}`,
+                              desc: "Vanilla Icreammm <3!",
+                              wallet_address:
+                                "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR",
+                              followers: 0,
+                              following: 0,
+                              kind: 0,
+                              funny: 0,
+                              sad: 0,
+                              angry: 0,
+                              popularity: 0,
+                            },
+                          ])
+                          .select()
+                      : {
+                          data: null,
+                          error: new Error(
+                            "Supabase client is not initialized"
+                          ),
+                        };
+                    console.log(data);
+                    setTimeout(() => {
+                      setTranDone(true);
+                    }, 2000);
+                  })();
+                }}
+              >
+                <Image src={nft.image} height={200} width={200} alt=""></Image>
+                <div className="h-[1px] bg-black mx-1" />
+                <p
+                  className="font-bold pl-2 text-secondary text-center"
+                  key={id}
+                >
+                  {nft.name}
+                </p>
+              </div>
+            ))
+          )}
         </div>
       )}
     </div>
