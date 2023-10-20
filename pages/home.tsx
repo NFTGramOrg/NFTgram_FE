@@ -51,7 +51,7 @@ const Home = () => {
               Home
             </h1>
             <NewPost neoline={neoline} neolineN3={neolineN3} />
-            {posts.map((post, index) => (
+            {posts.map((post: any, index: any) => (
               <Feed
                 key={index}
                 name={post.profile.username}

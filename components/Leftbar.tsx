@@ -28,7 +28,7 @@ const NAVIGATION_ITEMS = [
     icon: BsBell,
   },
 ];
-const Leftbar = ({ neoline, neolineN3 }) => {
+const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
   const [neoBalance, setNeoBalance] = useState<string>("0");
   const [gasBalance, setGasBalance] = useState<string>("0");
 

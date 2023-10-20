@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
 function Hero() {
   const [response, setResponse] = useState("");
   const [dappUri, setDappUri] = useState("");
-  const [neoline, setNeoLine] = useState();
-  const [neolineN3, setNeoLineN3] = useState();
+  const [neoline, setNeoLine] = useState<{
+    getAccount: () => { address: string };
+  }>();
+  const [neolineN3, setNeoLineN3] = useState(null);
   const [account, setAccount] = useState("");
   const router = useRouter();
 
@@ -39,9 +40,11 @@ function Hero() {
 
   const initNeolineAccount = async () => {
     try {
-      const { address } = await neoline.getAccount();
-      setAccount(address);
-      router.push("/home");
+      if (neoline != null) {
+        const { address } = await neoline.getAccount();
+        setAccount(address);
+        router.push("/home");
+      }
     } catch (error) {
       console.log(error);
     }

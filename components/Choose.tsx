@@ -6,7 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
 
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-function Choose({ neoline, neolineN3 }) {
+function Choose({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
   const [tranDone, setTranDone] = useState(false);
   const [newAccount, setNewAccount] = useState([]);
   const [yourAccounts, setYourAccounts] = useState<any>([]);
@@ -65,7 +65,7 @@ function Choose({ neoline, neolineN3 }) {
       console.log(data);
       setYourAccounts(data || []);
     })();
-  }, []);
+  }, [tranDone]);
 
   return (
     <div className="overflow-x-hidden">
@@ -76,7 +76,7 @@ function Choose({ neoline, neolineN3 }) {
         </p>
       ) : (
         <div className="grid grid-cols-3 gap-4 mb-16">
-          {yourAccounts.map((account, id) => (
+          {yourAccounts.map((account: any, id: any) => (
             <Link href={"/profile/" + account.userid} key={id}>
               <div className="flex flex-col  bg-slate-200 rounded-lg">
                 <Image

@@ -127,7 +127,7 @@ function Profile({ accountId }: { accountId: string }) {
                   <option defaultValue={0} className="font-semibold">
                     Choose Your Account
                   </option>
-                  {accounts.map((item, index) => (
+                  {accounts.map((item: any, index: any) => (
                     <option
                       value={item.userid}
                       key={index}
@@ -262,7 +262,7 @@ function Profile({ accountId }: { accountId: string }) {
               </div>
             </div>
           </div>
-          {posts.map((post, index) => (
+          {posts.map((post: any, index: any) => (
             <Feed
               key={index}
               name={selectedAccount.username}

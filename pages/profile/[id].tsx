@@ -3,17 +3,18 @@ import Profile from "@/components/Profile";
 import Rightsection from "@/components/Rightsection";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+
 export default function Account() {
   const router = useRouter();
   const { id } = router.query;
   const [neoline, setNeoLine] = useState();
   const [neolineN3, setNeoLineN3] = useState();
   React.useEffect(() => {
-    console.log("TRYIG");
     window.addEventListener("NEOLine.NEO.EVENT.READY", () => {
       console.log("NEOLine.NEO.EVENT.READY");
-
-      setNeoLine(new window.NEOLineN3.Init());
+      if (window != null) {
+        setNeoLine(new window.NEOLineN3.Init());
+      }
     });
     window.addEventListener("NEOLine.N3.EVENT.READY", () => {
       setNeoLineN3(new window.NEOLineN3.Init());

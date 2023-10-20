@@ -1,12 +1,11 @@
 "use client";
 import Choose from "@/components/Choose";
 import Leftbar from "@/components/Leftbar";
-import Profile from "@/components/Profile";
 import Rightsection from "@/components/Rightsection";
 import Viewpost from "@/components/Viewpost";
 import React, { useState } from "react";
 
-function page() {
+function Profile() {
   const [neoline, setNeoLine] = useState();
   const [neolineN3, setNeoLineN3] = useState();
   React.useEffect(() => {
@@ -25,10 +24,6 @@ function page() {
       <div className=" max-w-screen-2xl w-full h-full flex relative">
         <Leftbar neoline={neoline} neolineN3={neolineN3} />
         <main className="ml-[295px] flex w-[900px] p-6 min-h-screen g-full flex-col border-l-[0.5px] border-r border-accent">
-          {/* <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0">
-            Profile
-          </h1> */}
-          {/* <Profile /> */}
           <Choose neoline={neoline} neolineN3={neolineN3} />
         </main>
         <Rightsection />
@@ -37,4 +32,4 @@ function page() {
   );
 }
 
-export default page;
+export default Profile;

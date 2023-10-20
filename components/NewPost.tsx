@@ -19,7 +19,7 @@ const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 //   },
 // ];
 
-function NewPost({ neoline, neolineN3 }) {
+function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
   const [input, setInput] = useState("");
   const [content, setContent] = useState("");
   const [buttondisabled, setDisabled] = useState(true);
@@ -103,7 +103,7 @@ function NewPost({ neoline, neolineN3 }) {
     callApi(form_values.post.toString().toLowerCase());
   }
 
-  const sendInput = async (prompt, gen) => {
+  const sendInput = async (prompt: string, gen: string) => {
     const { data, error } = supabase
       ? await supabase
           .from("tweets")
@@ -170,7 +170,7 @@ function NewPost({ neoline, neolineN3 }) {
                     No accounts
                   </option>
                 ) : (
-                  yourAccounts.map((item, id) => (
+                  yourAccounts.map((item: any, id: any) => (
                     <option
                       value={item.userid}
                       key={id}

@@ -1,12 +1,12 @@
-export default async (neolineN3): Promise<any> => {
+export default async (neolineN3: any): Promise<any> => {
   let retData;
   try {
     const results = await neolineN3.getBalance();
-    let temp = {};
+    let temp = { neo: 0, gas: 0 };
 
     Object.keys(results).forEach((address) => {
       const balances = results[address];
-      balances.forEach((balance) => {
+      balances.forEach((balance: any) => {
         const { contract, symbol, amount } = balance;
         if (symbol == "NEO") {
           temp.neo = amount;
@@ -16,7 +16,7 @@ export default async (neolineN3): Promise<any> => {
       });
     });
     retData = temp;
-  } catch (error) {
+  } catch (error: any) {
     const { type } = error;
     switch (type) {
       case "NO_PROVIDER":
