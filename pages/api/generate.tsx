@@ -29,6 +29,7 @@ export default async function handler(
   const { data, error } = supabase
     ? await supabase.from("tweets").select("*").eq("prompt", prompt)
     : { data: null, error: new Error("supabase not initialized") };
+
   if (data) {
     console.log("Found in db");
     const account = data[0];
