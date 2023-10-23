@@ -1,12 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, OpenAIApi } from "openai";
-
+import { useState } from "react";
 type ResponseData = {
   content: string;
+  image_url: string;
 };
 interface GenereateNextApiRequest extends NextApiRequest {
   body: {
     prompt: string;
+    image:boolean;
     kind: number;
     sad: number;
     funny: number;
@@ -35,7 +37,15 @@ export default async function handler(
     frequency_penalty: 0.5,
     presence_penalty: 0,
   });
- 
+  let img_url: string | undefined;
+  if(req.body.image){
+    const imgresponse = await openai.createImage({
+      prompt:`create an image based on : ${req.body.prompt}`,
+      n: 1,
+      size: "512x512",
+    });
+    img_url = imgresponse.data.data[0].url || "Image unavailable";
+  }
   const response = aiResult.data.choices[0].text?.trim() || "error occoured";
-  res.status(200).json({ content: response });
+  res.status(200).json({ content: response,image_url:img_url ?? "" });
 }

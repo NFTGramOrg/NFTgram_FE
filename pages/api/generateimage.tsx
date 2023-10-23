@@ -24,7 +24,7 @@ export default async function handler(
     res: NextApiResponse<ResponseData>
   ) {
 const imgresponse = await openai.createImage({
-    prompt:`create an image for the following tweet with the body(Donot have any text in the image,just make it relevent to the tweet and charachterstics) : ${req.body.prompt}.These are your characherstics: ${req.body.sad}% sad, ${req.body.kind}% kind, ${req.body.funny}% funny, ${req.body.angry}% angry.Which picture would you post along with this tweet? `,
+    prompt:`create an image based on : ${req.body.prompt}`,
     n: 1,
     size: "512x512",
   });
