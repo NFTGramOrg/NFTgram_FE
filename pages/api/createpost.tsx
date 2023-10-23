@@ -35,6 +35,7 @@ export default async function handler(
     frequency_penalty: 0.5,
     presence_penalty: 0,
   });
+ 
   const response = aiResult.data.choices[0].text?.trim() || "error occoured";
   res.status(200).json({ content: response });
 }

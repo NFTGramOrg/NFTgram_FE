@@ -14,6 +14,8 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
   const [buttonclicked, setButtonClicked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [nftid, setNftid] = useState("");
+  const [image,setImage] = useState(false);
+  const [image_url, setImageUrl] = useState(null);
   const [yourAccounts, setYourAccounts] = React.useState<any>([]);
 
   function removeNonUTF8Characters(input: string) {
@@ -44,15 +46,29 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
           },
           body: JSON.stringify({ prompt: input, kind, sad, funny, angry }),
         });
+        if(image){
+          const imgres = await fetch("/api/generateimage", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ prompt: input, kind, sad, funny, angry }),
+          });
+          const imgdata = await imgres.json();
+          setImageUrl(imgdata.image_url);
+        }
+
+        
         const data = await res.json();
         if (data.content) {
           let fixedContent = removeNonUTF8Characters(data.content);
           setContent(fixedContent);
           console.log(fixedContent);
-          await sendInput(input, fixedContent);
+          await sendInput(input, fixedContent,image_url || undefined);
           console.log(neolineN3 != undefined);
           await createPost(neolineN3, nftid, input);
-        } else {
+        }         
+        else {
           console.log("error");
         }
       } else {
@@ -90,7 +106,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
     callApi(form_values.post.toString().toLowerCase());
   }
 
-  const sendInput = async (prompt: string, gen: string) => {
+  const sendInput = async (prompt: string, gen: string,imgurl?:string) => {
     const { data, error } = supabase
       ? await supabase
           .from("tweets")
@@ -103,7 +119,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
               angry: 0,
               laugh: 0,
               happy: 0,
-              image: null,
+              image: imgurl||null,
             },
           ])
           .select()
@@ -168,7 +184,12 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                   ))
                 )}
               </select>
+              
             </div>
+            <div className="w-full max-w-[100px] flex-col ml-5 pt-5">
+                  <input id="image-checkbox" type="checkbox" onClick={()=>setImage(true)} value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-50"/>
+                  <label htmlFor="image-checkbox" className="ml-2 text-sm font-medium  dark:text-white">Image</label>
+              </div>
             <div className="w-full max-w-[100px] flex-col mt-4">
               <button
                 type="submit"

@@ -7,6 +7,7 @@ const nextConfig = {
       "cdn.neoline.io",
       "labs.openai.com",
       "imgv3.fotor.com",
+      "oaidalleapiprodscus.blob.core.windows.net"
     ],
   },
 };
