@@ -4,7 +4,12 @@ import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 
 type ResponseData = {
-  content: string;
+  data: {
+    post: {
+      name: string;
+      value: string;
+    }[];
+  };
 };
 interface GenereateNextApiRequest extends NextApiRequest {
   query: {
@@ -33,8 +38,23 @@ export default async function handler(
   if (data) {
     console.log("Found in db");
     const account = data[0];
-    res.status(200).json({ content: account.gen });
+    const returnData = {
+      data: {
+        post: [
+          { name: "textUrl", value: account.gen },
+          { name: "imageUrl", value: account.image ?? "" },
+        ],
+      },
+    };
+    res.status(200).json(returnData);
   } else {
-    res.status(200).json({ content: "No content" });
+    res.status(200).json({
+      data: {
+        post: [
+          { name: "textUrl", value: "error" },
+          { name: "imageUrl", value: "error" },
+        ],
+      },
+    });
   }
 }
