@@ -69,18 +69,23 @@ function Feed({
             )}
             <div className="flex items-center mx-auto justify-between  mt-2 w-[90%]">
               <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer ">
+                
                 <BsChat />
               </div>
-              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <p className="text-xs mr-3">0</p>
                 <BiHappyAlt />
               </div>
-              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <p className="text-xs mr-3">0</p>
                 <BiAngry />
               </div>
-              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <p className="text-xs mr-3">0</p>
                 <BiSad />
               </div>
-              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+              <p className="text-xs mr-3">0</p>
                 <FaRegLaughSquint />
               </div>
             </div>
