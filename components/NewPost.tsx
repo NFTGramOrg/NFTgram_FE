@@ -6,19 +6,6 @@ import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 import createPost from "@/utils/calls/setters/createPost";
 
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-// const NFTS = [
-//   {
-//     id: 1,
-//     nftname: "pikachu",
-//     nftid: "ynTsgQbdk0dFAPeygUAZxvO8eJcC",
-//   },
-//   {
-//     id: 2,
-//     nftname: "dragonite",
-//     nftid: "ynTsgQbdk0dFAPeygUAZxvO8eJcD",
-//   },
-// ];
-
 function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
   const [input, setInput] = useState("");
   const [content, setContent] = useState("");
