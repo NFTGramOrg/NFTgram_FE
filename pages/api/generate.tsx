@@ -52,8 +52,8 @@ export default async function handler(
       res.status(200).json({
         data: {
           post: [
-            { name: "textUrl", value: "error" },
-            { name: "imageUrl", value: "error" },
+            { name: "textUrl", value: JSON.stringify(error) },
+            { name: "imageUrl", value: JSON.stringify(error) },
           ],
         },
       });
@@ -63,7 +63,7 @@ export default async function handler(
       data: {
         post: [
           { name: "textUrl", value: JSON.stringify(e) },
-          { name: "imageUrl", value: "error" },
+          { name: "imageUrl", value: JSON.stringify(prompt) },
         ],
       },
     });
