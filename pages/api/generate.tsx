@@ -63,7 +63,7 @@ export default async function handler(
       data: {
         post: [
           { name: "textUrl", value: JSON.stringify(e) },
-          { name: "imageUrl", value: JSON.stringify(prompt) },
+          { name: "imageUrl", value: JSON.stringify(req.query.prompt) },
         ],
       },
     });
