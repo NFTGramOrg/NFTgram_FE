@@ -47,8 +47,10 @@ export default async function handler(
           ],
         },
       };
+      res.setHeader("Content-Type", "application/json");
       res.status(200).json(returnData);
     } else {
+      res.setHeader("Content-Type", "application/json");
       res.status(200).json({
         data: {
           post: [
@@ -59,6 +61,7 @@ export default async function handler(
       });
     }
   } catch (e) {
+    res.setHeader("Content-Type", "application/json");
     res.status(200).json({
       data: {
         post: [
