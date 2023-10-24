@@ -25,33 +25,44 @@ export default async function handler(
   req: GenereateNextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  const supabase = SUPABASE_URL
-    ? createClient(SUPABASE_URL, SUPABASE_KEY)
-    : null;
-  const { prompt } = req.query;
-  console.log(prompt);
+  try {
+    const supabase = SUPABASE_URL
+      ? createClient(SUPABASE_URL, SUPABASE_KEY)
+      : null;
+    const { prompt } = req.query;
+    console.log(prompt);
 
-  const { data, error } = supabase
-    ? await supabase.from("tweets").select("*").eq("prompt", prompt)
-    : { data: null, error: new Error("supabase not initialized") };
+    const { data, error } = supabase
+      ? await supabase.from("tweets").select("*").eq("prompt", prompt)
+      : { data: null, error: new Error("supabase not initialized") };
 
-  if (data) {
-    console.log("Found in db");
-    const account = data[0];
-    const returnData = {
-      data: {
-        post: [
-          { name: "textUrl", value: account.gen },
-          { name: "imageUrl", value: account.image ?? "" },
-        ],
-      },
-    };
-    res.status(200).json(returnData);
-  } else {
+    if (data) {
+      console.log("Found in db");
+      const account = data[0];
+      const returnData = {
+        data: {
+          post: [
+            { name: "textUrl", value: account.gen },
+            { name: "imageUrl", value: account.image ?? "" },
+          ],
+        },
+      };
+      res.status(200).json(returnData);
+    } else {
+      res.status(200).json({
+        data: {
+          post: [
+            { name: "textUrl", value: "error" },
+            { name: "imageUrl", value: "error" },
+          ],
+        },
+      });
+    }
+  } catch (e) {
     res.status(200).json({
       data: {
         post: [
-          { name: "textUrl", value: "error" },
+          { name: "textUrl", value: JSON.stringify(e) },
           { name: "imageUrl", value: "error" },
         ],
       },
