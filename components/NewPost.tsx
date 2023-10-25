@@ -15,8 +15,8 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [nftid, setNftid] = useState("");
-  const [image,setImage] = useState(false);
-  const [image_url, setImageUrl] = useState('');
+  const [image, setImage] = useState(false);
+  const [image_url, setImageUrl] = useState("");
   const [yourAccounts, setYourAccounts] = React.useState<any>([]);
 
   function removeNonUTF8Characters(input: string) {
@@ -45,11 +45,18 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ prompt: input, kind, sad, funny, angry,image }),
-        });        
+          body: JSON.stringify({
+            prompt: input,
+            kind,
+            sad,
+            funny,
+            angry,
+            image,
+          }),
+        });
         const data = await res.json();
-        if(data.image_url){
-          setImageUrl(data.image_url)
+        if (data.image_url) {
+          setImageUrl(data.image_url);
         }
         if (data.content) {
           let fixedContent = removeNonUTF8Characters(data.content);
@@ -58,10 +65,9 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
           console.log(fixedContent);
           await sendInput(input, fixedContent, image);
           console.log(neolineN3 != undefined);
-          const tid=await createPost(neolineN3, nftid, input);
+          const tid=await createPost(neolineN3, nftid, encodeURIComponent(input));
           setTxnid(tid);
-        }         
-        else {
+        } else {
           console.log("error");
         }
       } else {
@@ -96,14 +102,14 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
 
     const formData = new FormData(event.currentTarget);
     const form_values = Object.fromEntries(formData);
-    callApi(form_values.post.toString().toLowerCase());
+    callApi(form_values.post.toString());
   }
   const refreshpage = () => {
     setRefresh(false);
     window.location.reload();
     setLoading(false);
-  }
-  const sendInput = async (prompt: string, gen: string,imgurl:string) => {
+  };
+  const sendInput = async (prompt: string, gen: string, imgurl: string) => {
     const { data, error } = supabase
       ? await supabase
           .from("tweets")
@@ -139,7 +145,6 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                 </svg>
                 <span className="sr-only">Loading...</span>
           </div>
-          <div className="text-xl font-bold mt-5">Generating Post</div>
           <div className="w-full max-w-[160px] flex-col mt-4">
               <button
                 disabled={!refresh}
@@ -155,81 +160,93 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
             <div className="text-xl font-bold mt-5 justify-center">
               Txnid:{txnid}
             </div>
-       </div>)}
-       {!loading&&(<div className="border-t-[0.5px] px-4 border-b-[0.5px] flex items-stretch py-6 space-x-2 border-accent relative">
-        <div className="w-11 h-11 bg-slate-400 rounded-full flex-none"></div>
-        <form className="flex flex-col w-full h-full" onSubmit={onSubmit}>
-          <input
-            onChange={(ev: any) => {
-              setInput(ev.target.value);
-            }}
-            type="text"
-            name="post"
-            className="w-full h-full text-2xl placeholder:text-gray-600 bg-transparent border-b-[0.5px] border-gray-600 p-4 outline-none border-none"
-            placeholder="Submit prompts to generate a post"
-            id="post"
-          />
-          <div className="w-full justify-between items-center flex">
-            <div>
-              <label
-                htmlFor="countries"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Select Your Account
-              </label>
-              <select
-                id="countries"
-                className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
-                onChange={(e) => {
-                  e.target.value != "Choose Your NFT" &&
-                  e.target.value != "No accounts"
-                    ? setDisabled(false)
-                    : setDisabled(true);
-                  console.log(e.target.value);
-                  setNftid(e.target.value);
-                }}
-              >
-                <option defaultValue={0} className="font-semibold">
-                  Choose Your NFT
-                </option>
-                {yourAccounts.length == 0 ? (
-                  <option className="font-semibold text-gray-300">
-                    No accounts
-                  </option>
-                ) : (
-                  yourAccounts.map((item: any, id: any) => (
-                    <option
-                      value={item.userid}
-                      key={id}
-                      className="font-semibold"
-                    >
-                      {item.username}&nbsp;({item.userid})
-                    </option>
-                  ))
-                )}
-              </select>
-              
-            </div>
-            <div className="w-full max-w-[100px] flex-col ml-5 pt-5">
-                  <input id="image-checkbox" type="checkbox" onClick={()=>setImage(true)} value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-50"/>
-                  <label htmlFor="image-checkbox" className="ml-2 text-sm font-medium  dark:text-white">Image</label>
-              </div>
-            <div className="w-full max-w-[100px] flex-col mt-4">
-              <button
-                type="submit"
-                disabled={buttondisabled}
-                className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
-                onClick={() => {
-                  // sendInput();
-                }}
-              >
-                Post
-              </button>
-            </div>
           </div>
-        </form>
-      </div>)}
-      
+        )}
+        {!loading && (
+          <div className="border-t-[0.5px] px-4 border-b-[0.5px] flex items-stretch py-6 space-x-2 border-accent relative">
+            <div className="w-11 h-11 bg-slate-400 rounded-full flex-none"></div>
+            <form className="flex flex-col w-full h-full" onSubmit={onSubmit}>
+              <input
+                onChange={(ev: any) => {
+                  setInput(ev.target.value);
+                }}
+                type="text"
+                name="post"
+                className="w-full h-full text-2xl placeholder:text-gray-600 bg-transparent border-b-[0.5px] border-gray-600 p-4 outline-none border-none"
+                placeholder="Submit prompts to generate a post"
+                id="post"
+              />
+              <div className="w-full justify-between items-center flex">
+                <div>
+                  <label
+                    htmlFor="countries"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Select Your Account
+                  </label>
+                  <select
+                    id="countries"
+                    className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
+                    onChange={(e) => {
+                      e.target.value != "Choose Your NFT" &&
+                      e.target.value != "No accounts"
+                        ? setDisabled(false)
+                        : setDisabled(true);
+                      console.log(e.target.value);
+                      setNftid(e.target.value);
+                    }}
+                  >
+                    <option defaultValue={0} className="font-semibold">
+                      Choose Your NFT
+                    </option>
+                    {yourAccounts.length == 0 ? (
+                      <option className="font-semibold text-gray-300">
+                        No accounts
+                      </option>
+                    ) : (
+                      yourAccounts.map((item: any, id: any) => (
+                        <option
+                          value={item.userid}
+                          key={id}
+                          className="font-semibold"
+                        >
+                          {item.username}&nbsp;({item.userid})
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </div>
+                <div className="w-full max-w-[100px] flex-col ml-5 pt-5">
+                  <input
+                    id="image-checkbox"
+                    type="checkbox"
+                    onClick={() => setImage(true)}
+                    value=""
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-50"
+                  />
+                  <label
+                    htmlFor="image-checkbox"
+                    className="ml-2 text-sm font-medium  dark:text-white"
+                  >
+                    Image
+                  </label>
+                </div>
+                <div className="w-full max-w-[100px] flex-col mt-4">
+                  <button
+                    type="submit"
+                    disabled={buttondisabled}
+                    className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
+                    onClick={() => {
+                      // sendInput();
+                    }}
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )}
       </>
     )
   );
