@@ -4,9 +4,9 @@ import useState from "react-usestateref";
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 import createPost from "@/utils/calls/setters/createPost";
-
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
+  const [txnid,setTxnid]=useState<String>(' ');
   const [input, setInput] = useState("");
   const [content, setContent] = useState("");
   const [buttondisabled, setDisabled] = useState(true);
@@ -58,7 +58,8 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
           console.log(fixedContent);
           await sendInput(input, fixedContent, image);
           console.log(neolineN3 != undefined);
-          await createPost(neolineN3, nftid, input);
+          const tid=await createPost(neolineN3, nftid, input);
+          setTxnid(tid);
         }         
         else {
           console.log("error");
@@ -138,6 +139,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                 </svg>
                 <span className="sr-only">Loading...</span>
           </div>
+          <div className="text-xl font-bold mt-5">Generating Post</div>
           <div className="w-full max-w-[160px] flex-col mt-4">
               <button
                 disabled={!refresh}
@@ -148,6 +150,10 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
               >
                 Refresh Page
               </button>
+              
+            </div>
+            <div className="text-xl font-bold mt-5 justify-center">
+              Txnid:{txnid}
             </div>
        </div>)}
        {!loading&&(<div className="border-t-[0.5px] px-4 border-b-[0.5px] flex items-stretch py-6 space-x-2 border-accent relative">

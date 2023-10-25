@@ -4,8 +4,8 @@ const createPost = async (
   neolineN3: any,
   accountId: string,
   prompt: string
-): Promise<void> => {
-  let postId;
+): Promise<String> => {
+  let txId;
   try {
     const post = await neolineN3.invoke({
       scriptHash: NFT_ACCOUNTS_SCRIPT_HASH,
@@ -29,11 +29,11 @@ const createPost = async (
     });
     console.log("Tx Hash: " + post.txid);
 
-    window.alert("Post created successfully!\n Transaction Hash: " + post.txid);
+   txId= post.txid;
   } catch (er) {
     console.log(er);
   }
 
-  return postId;
+  return txId;
 };
 export default createPost;

@@ -42,6 +42,7 @@ function Feed({
                     alt=""
                     width={40}
                     height={40}
+                    priority={true}
                   />
                 </div>
               </div>
@@ -51,7 +52,16 @@ function Feed({
                 <BsDot />
               </div>
               <div>{timeAgo(createdAt)}</div>
+              <div className="pl-5">
+              <button
+                type="submit"
+                className=" rounded-full top bg-secondary px-4 py-2 w-1/7 h-1/2 text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
+              >
+                Follow
+              </button>
+              </div>
             </div>
+
             <div className="text-white text-sm">{content}</div>
             {/* <div className={`bg-slate-400 aspect-square w-full h-96 rounded-xl`}></div> */}
             {image && (
