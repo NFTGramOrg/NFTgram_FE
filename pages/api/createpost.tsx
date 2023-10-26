@@ -13,6 +13,7 @@ interface GenereateNextApiRequest extends NextApiRequest {
     sad: number;
     funny: number;
     angry: number;
+    profile: string;
   };
 }
 const configuration = new Configuration({
@@ -38,9 +39,22 @@ export default async function handler(
     presence_penalty: 0,
   });
   let img_url: string | undefined;
+  let imagemood='';
+  if(req.body.sad>req.body.funny && req.body.sad>req.body.kind && req.body.sad>req.body.angry){
+    imagemood='sad';
+  }
+  else if(req.body.funny>req.body.sad && req.body.funny>req.body.kind && req.body.funny>req.body.angry){
+    imagemood='funny';
+  }
+  else if(req.body.kind>req.body.sad && req.body.kind>req.body.funny && req.body.kind>req.body.angry){
+    imagemood='kind';
+  }
+  else{
+    imagemood='angry';
+  }
   if(req.body.image){
     const imgresponse = await openai.createImage({
-      prompt:`create an image based on : ${req.body.prompt}`,
+      prompt:`${req.body.prompt} and  ${req.body.profile} ,${imagemood},high quality,pokemon styled cartoon.`,
       n: 1,
       size: "512x512",
     });

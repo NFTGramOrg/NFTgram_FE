@@ -39,7 +39,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
         ? await supabase.from("profile").select("*").eq("userid", nftid)
         : { data: null, error: new Error("supabase not initialized") };
       if (account != null && account.length > 0) {
-        const { kind, sad, funny, angry } = account[0];
+        const { kind, sad, funny, angry,nftdesc } = account[0];
         const res = await fetch("/api/createpost", {
           method: "POST",
           headers: {
@@ -52,6 +52,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
             funny,
             angry,
             image,
+            profile: nftdesc
           }),
         });
         const data = await res.json();
