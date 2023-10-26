@@ -90,7 +90,7 @@ function Feed({
               <div>
                 <div className="w-10 h-10 bg-black rounded-full ">
                   <Image
-                    className="rounded-full"
+                    className="rounded-full  bg-white"
                     src={userImage || ""}
                     alt=""
                     width={40}
@@ -118,7 +118,7 @@ function Feed({
             <div className="text-white text-sm">{content}</div>
             {image && (
               <div
-                className={`bg-slate-400 aspect-square w-full h-96 rounded-xl`}
+                className={`pt-3 aspect-square w-full h-96 rounded-xl`}
               >
                 <Image
                   src={image}
