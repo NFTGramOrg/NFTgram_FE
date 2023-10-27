@@ -11,7 +11,7 @@ import { SUPABASE_URL, SUPABASE_KEY } from "@/utils/constants";
 import Link from "next/link";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-function Profile({ accountId }: { accountId: string }) {
+function Profile({ accountId,changePage }: { accountId: string,changePage:any }) {
   const [account, setAccount] = useState(accountId);
   const [accounts, setAccounts] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
@@ -133,7 +133,8 @@ function Profile({ accountId }: { accountId: string }) {
                   className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
                   onChange={(e) => {
                     // console.log(e.target.value);
-                    handleChangeaccount(e.target.value)
+                    // handleChangeaccount(e.target.value)
+                    changePage(e.target.value)
                     setAccount(e.target.value)
 
                   }}

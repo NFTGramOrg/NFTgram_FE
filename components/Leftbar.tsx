@@ -24,7 +24,7 @@ const NAVIGATION_ITEMS = [
   },
   {
     title: "Notifications",
-    link: "home ",
+    link: "notification",
     icon: BsBell,
   },
 ];
