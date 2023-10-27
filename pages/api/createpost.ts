@@ -25,7 +25,7 @@ export default async function handler(
   req: GenereateNextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  const prmt = `Assume you are a person with the following characteristics DO NOT reveal your characteristics metrics in the tweet: ${req.body.sad}% sad, ${req.body.kind}% kind, ${req.body.funny}% funny, ${req.body.angry}% angry. Strictly no emojis in texts or hashtags. Only UTF-8 characters. Generate a tweet for this prompt "${req.body.prompt}" `;
+  const prmt = `Assume you are a person with the following characteristics: ${req.body.sad}% sad, ${req.body.kind}% kind, ${req.body.funny}% funny, ${req.body.angry}% angry. Do not use % in the generated content. Strictly no emojis in texts or hashtags. Only UTF-8 characters. Generate a tweet for this prompt "${req.body.prompt}" `;
   const prompt = prmt;
   if (!prompt || prompt === "") {
     return new Response("prompt is required", { status: 400 });

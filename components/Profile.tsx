@@ -9,24 +9,20 @@ import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { SUPABASE_URL, SUPABASE_KEY } from "@/utils/constants";
 import Link from "next/link";
+import follow from "@/utils/calls/setters/follow";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-function Profile({ accountId,changePage }: { accountId: string,changePage:any }) {
+function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neolineN3:any, accountId: string,changePage:any }) {
   const [account, setAccount] = useState(accountId);
   const [accounts, setAccounts] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
   const router = useRouter();
   const [selectedAccount, setSelectedAccount] = useState<any>(null);
   const [loading,setLoading] = useState(false)
-
-  const handleChangeaccount=(usrname:string)=>{  
-    setAccount(usrname)
-    setLoading(true)
-    if (usrname != "Choose Your Account")
-    router.push("/profile/" + usrname);
-    // if(usrname==selectedAccount.userid)
-    // setLoading(false)
-    // router.reload();
+  const [mynft,setMynft] = useState<boolean>(false)
+  const followhandler = async (usrid:string) => {
+    const { data, error } = supabase
+        ? await supabase.rpc('follow', {uid: usrid}): { data: null, error: new Error("supabase not initialized") };
   }
   useEffect(() => {
     (async function () {
@@ -44,6 +40,10 @@ function Profile({ accountId,changePage }: { accountId: string,changePage:any })
       } else if (data.length > 0) {
         console.log(data[0]);
         setSelectedAccount(data[0]);
+        if(data[0].wallet_address=="NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR"){
+          setMynft(true)
+          console.log(mynft)
+        }
       } else {
         console.log("Seleceted Account not fetched");
         // router.push("/404");
@@ -74,9 +74,6 @@ function Profile({ accountId,changePage }: { accountId: string,changePage:any })
     })();
 
     (async function () {
-      // const walletAddress =
-      //   wcSdk.getAccountAddress() || "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR";
-      // console.log(walletAddress);
       const { data, error } = supabase
         ? await supabase
             .from("profile")
@@ -128,12 +125,13 @@ function Profile({ accountId,changePage }: { accountId: string,changePage:any })
             </div>
             <div className="flex flex-col text-right">
               <div>
+                
                 <select
                   id="countries"
-                  className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
+                  
+                  className= {!mynft?"hidden":`text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`}
                   onChange={(e) => {
-                    // console.log(e.target.value);
-                    // handleChangeaccount(e.target.value)
+
                     changePage(e.target.value)
                     setAccount(e.target.value)
 
@@ -154,6 +152,44 @@ function Profile({ accountId,changePage }: { accountId: string,changePage:any })
                     </option>
                   ))}
                 </select>
+                <div className="flex">
+                <select
+                  id="countries"
+                  
+                  className= {mynft?"hidden":`text-sm mr-5 rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`}
+                  onChange={(e) => {
+
+                    setAccount(e.target.value)
+
+                  }}
+                >
+                  <option defaultValue={0} className="font-semibold">
+                    Choose Your Account
+                  </option>
+                  {accounts.map((item: any, index: any) => (
+                    
+                    <option
+                      value={item.userid}
+                      key={index}
+                      className="font-semibold"
+                    >
+                      {item.username}&nbsp;({item.userid})
+
+                    </option>
+                  ))}
+                </select>
+                <button
+                    className={mynft?"hidden":"rounded-full top bg-secondary px-8 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500 -mr-2 "}
+                    onClick={async() => {
+
+                      await follow(neoline,account,accountId)
+                      followhandler(account)
+                      // sendInput();
+                    }}
+                  >
+                    Follow
+                  </button>
+                  </div>
               </div>
             </div>
           </div>

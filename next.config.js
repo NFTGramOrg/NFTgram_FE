@@ -8,7 +8,8 @@ const nextConfig = {
       "labs.openai.com",
       "imgv3.fotor.com",
       "oaidalleapiprodscus.blob.core.windows.net",
-      "i.ibb.co"
+      "i.ibb.co",
+      "send.fs.neo.org"
     ],
   },
 };

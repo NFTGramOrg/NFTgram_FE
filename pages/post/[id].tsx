@@ -10,9 +10,9 @@ function Post() {
   const router = useRouter();
   const [id,setId]=useState<string>('')
   const [loading,setLoading]=useState<boolean>(true)
-  const [neoline, setNeoLine] = useState();
+    const [neoline, setNeoLine] = useState();
   const [neolineN3, setNeoLineN3] = useState();
-  useEffect(() => {
+    useEffect(() => {
     if (router.isReady) {
         if(router.query!=undefined)
         {
@@ -22,7 +22,7 @@ function Post() {
         }
     }
   }, [router.isReady]);
-
+  
   React.useEffect(() => {
     console.log("This is the id before the tweets: "+id)
     window.addEventListener("NEOLine.NEO.EVENT.READY", () => {
@@ -35,15 +35,15 @@ function Post() {
       setNeoLineN3(new window.NEOLineN3.Init());
     });
   }, []);
-  return (
+    return (
     <div className="w-full h-full flex justify-center items-center relative bg-bgcolor">
       <div className=" max-w-screen-2xl w-full h-full flex relative">
         <Leftbar neoline={neoline} neolineN3={neolineN3} />
         <main className="ml-[295px] flex w-[900px] p-6 min-h-screen g-full flex-col border-l-[0.5px] border-r border-accent">
-          <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0">
+                    <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0">
             Post
           </h1>
-          {!loading && (
+                    {!loading && (
           <><Viewpost id={id as string} neoline={neoline} neolineN3={neolineN3} /></>)}
         </main>
         <Rightsection />

@@ -3,7 +3,7 @@ import { NFT_ACCOUNTS_SCRIPT_HASH, NFT_SCRIPT_HASH } from "../../constants";
 const createAccount = async (
   neolineN3: any,
   tokenId: string
-): Promise<void> => {
+): Promise<string> => {
   try {
     const account = await neolineN3.invoke({
       scriptHash: NFT_ACCOUNTS_SCRIPT_HASH,
@@ -23,12 +23,11 @@ const createAccount = async (
         },
       ],
     });
+    console.log(account);
     console.log("Tx Hash: " + account.txid);
-    window.alert(
-      "Account created successfully!\n Transaction Hash: " + account.txid
-    );
+    return account.txid;
   } catch (er) {
-    throw Error("Failed to create account");
+   return "error"
   }
 };
 

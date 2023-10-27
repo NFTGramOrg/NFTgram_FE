@@ -28,6 +28,7 @@ export default function Account() {
         {
           console.log(router.query.id)
             setAccid(router.query.id as string)
+
             setLoading(false)
         }
     }
@@ -38,7 +39,7 @@ export default function Account() {
       <div className=" max-w-screen-2xl w-full h-full flex relative">
         <Leftbar neoline={neoline} neolineN3={neolineN3} />
       {!loading && (<main className="ml-[295px] flex w-[900px] p-6 min-h-screen g-full flex-col border-l-[0.5px] border-r border-accent">
-        <Profile accountId={accid as string} changePage={setAccid} />
+        <Profile neoline={neoline} neolineN3={neolineN3} accountId={accid as string} changePage={setAccid} />
       </main>)}
         {/* <Rightsection /> */}
       </div>

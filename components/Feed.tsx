@@ -37,10 +37,7 @@ function Feed({
   const [hapR, sethap] = useState(0);
   const [sadR, setsad] = useState(0);
   const [laughR, setlaugh] = useState(0);
-  const followhandler = async (usrid:string) => {
-    const { data, error } = supabase
-        ? await supabase.rpc('follow', {uid: usrid}): { data: null, error: new Error("supabase not initialized") };
-  }
+
   const angry = async (postid:string,usrid:string) => {
     const { data, error } = supabase
         ? await supabase.rpc('angr', {tid: postid,uid: usrid}): { data: null, error: new Error("supabase not initialized") };
@@ -99,20 +96,16 @@ function Feed({
                   />
                 </div>
               </div>
+              <Link href={"/profile/" + userId}>
               <div className="font-bold pl-2 text-secondary">{name}</div>
+              </Link>
               <div className="text-primary">@{userId}</div>
+              
               <div>
                 <BsDot />
               </div>
               <div>{timeAgo(createdAt)}</div>
-              {/* <div className=" items-end gap-10">
-              <button
-                className=" rounded-full bg-secondary px-4 py-2 w-1/7 h-1/2 text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
-                onClick={() => followhandler(userId)}
-              >
-                Follow
-              </button>
-              </div> */}
+
             </div>
           <Link href={"/post/" + postId}>
             <div className="text-white text-sm">{content}</div>

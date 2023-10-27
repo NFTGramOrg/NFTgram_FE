@@ -20,8 +20,8 @@ const noti = [
 }
 ]
 function notification() {
-    const [neoline, setNeoLine] = useState();
-    const [neolineN3, setNeoLineN3] = useState();
+    const [neoline, setNeoLine] = useState(null);
+    const [neolineN3, setNeoLineN3] = useState(null);
     const [loading,setLoading]=useState(false);
     React.useEffect(() => {
       console.log("TRYIG");
