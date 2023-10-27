@@ -17,35 +17,7 @@ const REPLIES = [
         reply:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
         ,time:"1 hour ago",
         key:"1"
-    },
-    // {
-    //     user:"Boredape2",
-    //     username:"@boredape7914",
-    //     reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-    //     ,time:"1 hour ago",
-    //     key:"2"
-    // },
-    // {
-    //     user:"Boredape2",
-    //     username:"@boredape7914",
-    //     reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-    //     ,time:"1 hour ago",
-    //     key:"3"
-    // },
-    // {
-    //     user:"Boredape2",
-    //     username:"@boredape7914",
-    //     reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-    //     ,time:"1 hour ago",
-    //     key:"4"
-    // },
-    // {
-    //     user:"Boredape2",
-    //     username:"@boredape7914",
-    //     reply:"aaaaaaaaaaaaaaaaaaaaaaaaaaLorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
-    //     ,time:"1 hour ago",
-    //     key:"5"
-    // }
+    }
 ]
 
 function Viewpost({ id,neoline, neolineN3}: { id: string,neoline: any; neolineN3: any }) {
@@ -67,7 +39,7 @@ useEffect(() => {
       console.log("This is the id before the tweets: "+id);
 
       const { data, error } = supabase
-        ? await supabase.from("tweets").select("*").eq("id", id)
+        ? await supabase.from("tweets").select("*,profile(*)").eq("id", id)
         : { data: null, error: new Error("supabase not initialized") };
       if(data){
 
@@ -147,24 +119,23 @@ useEffect(() => {
         )}
     {!loading &&(
     <div className='flex flex-col'>
-         
               <div className='border-t-[0.5px] p-4 border-b-[0.5px] border-accent'>
                 
               <div className='flex flex-col space-y-4'>
                 <div className='flex items-center space-x-1'>
                 <div>
                   <div className='w-10 h-10 bg-slate-200 rounded-full '>
-                  {/* <Image
+                  <Image
                     className="rounded-full  bg-white "
                     src={posts.profile.profilepic || ""}
                     alt=""
                     width={40}
                     height={40}
                     priority={true}
-                  /> */}
+                  />
                   </div>
                 </div>
-                  {/* <div className='font-bold pl-2 text-secondary'>{posts.profile.username}</div> */}
+                  <div className='font-bold pl-2 text-secondary'>{posts.profile.username}</div>
                   <div className='text-primary'>{posts.userid}</div>
                   <div>
                     <BsDot/>

@@ -12,7 +12,6 @@ function Post() {
   const [loading,setLoading]=useState<boolean>(true)
   const [neoline, setNeoLine] = useState();
   const [neolineN3, setNeoLineN3] = useState();
-  
   useEffect(() => {
     if (router.isReady) {
         if(router.query!=undefined)
