@@ -90,7 +90,7 @@ function Feed({
               <div>
                 <div className="w-10 h-10 bg-black rounded-full ">
                   <Image
-                    className="rounded-full  bg-white"
+                    className="rounded-full  bg-white "
                     src={userImage || ""}
                     alt=""
                     width={40}

@@ -27,7 +27,7 @@ function Post() {
           <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0">
             Post
           </h1>
-          <Viewpost />
+          
         </main>
         <Rightsection />
       </div>

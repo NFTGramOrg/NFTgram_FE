@@ -19,12 +19,12 @@ const NAVIGATION_ITEMS = [
   },
   {
     title: "Trending",
-    link: "trending",
+    link: "home",
     icon: HiOutlineHashtag,
   },
   {
     title: "Notifications",
-    link: "notifications",
+    link: "home ",
     icon: BsBell,
   },
 ];

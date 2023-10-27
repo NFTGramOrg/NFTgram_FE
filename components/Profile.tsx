@@ -8,18 +8,28 @@ const GaugeChart = dynamic(() => import("react-gauge-chart"), { ssr: false });
 import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { SUPABASE_URL, SUPABASE_KEY } from "@/utils/constants";
+import Link from "next/link";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
 function Profile({ accountId }: { accountId: string }) {
-  const [account, setAccount] = useState({});
+  const [account, setAccount] = useState(accountId);
   const [accounts, setAccounts] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
   const router = useRouter();
   const [selectedAccount, setSelectedAccount] = useState<any>(null);
+  const [loading,setLoading] = useState(false)
 
+  const handleChangeaccount=(usrname:string)=>{  
+    setAccount(usrname)
+    setLoading(true)
+    if (usrname != "Choose Your Account")
+    router.push("/profile/" + usrname);
+    // if(usrname==selectedAccount.userid)
+    // setLoading(false)
+    // router.reload();
+  }
   useEffect(() => {
     (async function () {
-      console.log(accountId);
       const { data, error } = supabase
         ? await supabase
             .from("profile")
@@ -81,8 +91,11 @@ function Profile({ accountId }: { accountId: string }) {
       console.log(data);
       setAccounts(data || []);
     })();
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [account]);
+  console.log(accountId,"accountid");
+
   return (
     selectedAccount &&
     accounts.length > 0 && (
@@ -120,20 +133,23 @@ function Profile({ accountId }: { accountId: string }) {
                   className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
                   onChange={(e) => {
                     // console.log(e.target.value);
-                    if (e.target.value != "Choose Your Account")
-                      router.push("/profile/" + e.target.value);
+                    handleChangeaccount(e.target.value)
+                    setAccount(e.target.value)
+
                   }}
                 >
                   <option defaultValue={0} className="font-semibold">
                     Choose Your Account
                   </option>
                   {accounts.map((item: any, index: any) => (
+                    
                     <option
                       value={item.userid}
                       key={index}
                       className="font-semibold"
                     >
                       {item.username}&nbsp;({item.userid})
+
                     </option>
                   ))}
                 </select>
