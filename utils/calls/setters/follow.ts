@@ -27,6 +27,7 @@ const follow = async (
     console.log("Tx Hash: " + tx.txid);
     return tx.txid;
   } catch (er) {
+    console.log(er)
     return "error"
   }
 };

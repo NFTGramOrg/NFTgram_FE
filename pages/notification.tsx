@@ -1,3 +1,4 @@
+'use client'
 import Leftbar from '@/components/Leftbar'
 import Rightsection from '@/components/Rightsection';
 import Notif from '@/components/Notif';
@@ -19,7 +20,7 @@ const noti = [
     notitype:"follow"
 }
 ]
-function notification() {
+function Notification() {
     const [neoline, setNeoLine] = useState(null);
     const [neolineN3, setNeoLineN3] = useState(null);
     const [loading,setLoading]=useState(false);
@@ -45,7 +46,7 @@ function notification() {
               Notifications
             </h1>
             {noti.map((item) => (
-            <Notif title={item.title} description={item.description} notitype={item.notitype}/>))}
+            <Notif title={item.title} description={item.description} notitype={item.notitype} key={item.description}/>))}
         </main>
         <Rightsection/>
         </div>
@@ -54,4 +55,4 @@ function notification() {
 )
 }
 
-export default notification
+export default Notification

@@ -15,7 +15,7 @@ import unfollow from "@/utils/calls/setters/unfollow";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
 function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neolineN3:any, accountId: string,changePage:any }) {
-  const [account, setAccount] = useState(accountId);
+  const [account, setAccount] = useState("");
   const [accounts, setAccounts] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
   const [txHash,setTxHash]=useState<string>("")
@@ -207,14 +207,16 @@ function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neoli
                 </select>
                 <button
                     className={mynft?"hidden":"rounded-full top bg-secondary px-8 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500 -mr-2 "}
+                    disabled={account==""}
                     onClick={async() => {
-                      if(isFollowing)
+
+                      if(!isFollowing)
                     {
-                      const hash=await follow(neoline,account,accountId)
+                      const hash=await follow(neolineN3,account,accountId)
                       setTxHash(hash)
                       followhandler(accountId,account)
                     }else{
-                      const hash=await unfollow(neoline,account,accountId)
+                      const hash=await unfollow(neolineN3,account,accountId)
 setTxHash(hash)
                       unfollowhandler(accountId,account)
                     }
