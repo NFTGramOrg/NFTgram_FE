@@ -10,20 +10,39 @@ import { useRouter } from "next/router";
 import { SUPABASE_URL, SUPABASE_KEY } from "@/utils/constants";
 import Link from "next/link";
 import follow from "@/utils/calls/setters/follow";
+import getIsFollowing from "@/utils/calls/getters/getIsFollowing";
+import unfollow from "@/utils/calls/setters/unfollow";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
 function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neolineN3:any, accountId: string,changePage:any }) {
   const [account, setAccount] = useState(accountId);
   const [accounts, setAccounts] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
+  const [txHash,setTxHash]=useState<string>("")
   const router = useRouter();
+  const [isFollowing,setIsFollowing] = useState<boolean>(false)
   const [selectedAccount, setSelectedAccount] = useState<any>(null);
   const [loading,setLoading] = useState(false)
   const [mynft,setMynft] = useState<boolean>(false)
-  const followhandler = async (usrid:string) => {
+  const followhandler = async (follow:string,by:string) => {
     const { data, error } = supabase
-        ? await supabase.rpc('follow', {uid: usrid}): { data: null, error: new Error("supabase not initialized") };
+        ? await supabase.rpc('follow', {follow: follow,by:by}): { data: null, error: new Error("supabase not initialized") };
   }
+  const unfollowhandler=async (unfollow:string,by:string)=>{
+    const {data,error}=supabase?await supabase.rpc('unfollow',{follow:unfollow,by:by}):{data:null,error:new Error("supabase not initialized")}
+  }
+
+  async function updateIsFollowing(selectedAccount:string)
+  {
+    const retData=await getIsFollowing(neoline,selectedAccount==""?account:selectedAccount,accountId)
+    setIsFollowing(retData)
+  }
+
+  useEffect(()=>{
+(async function(){
+  await updateIsFollowing("")
+})()
+  },[])
   useEffect(() => {
     (async function () {
       const { data, error } = supabase
@@ -131,7 +150,7 @@ function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neoli
                   
                   className= {!mynft?"hidden":`text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`}
                   onChange={(e) => {
-
+                    console.log("HEYYY"+e.target.value  )
                     changePage(e.target.value)
                     setAccount(e.target.value)
 
@@ -157,9 +176,17 @@ function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neoli
                   id="countries"
                   
                   className= {mynft?"hidden":`text-sm mr-5 rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`}
-                  onChange={(e) => {
-
-                    setAccount(e.target.value)
+                  onChange={async(e) => {
+                    console.log("HEYYY"+e.target.value  )
+                      if(e.target.value=="Choose Your Account")
+                      {
+                        setAccount("")
+                        await updateIsFollowing("")
+                      }else{
+                        setAccount(e.target.value)
+                        await updateIsFollowing(e.target.value)
+                      }
+                  
 
                   }}
                 >
@@ -181,15 +208,24 @@ function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neoli
                 <button
                     className={mynft?"hidden":"rounded-full top bg-secondary px-8 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500 -mr-2 "}
                     onClick={async() => {
-
-                      await follow(neoline,account,accountId)
-                      followhandler(account)
+                      if(isFollowing)
+                    {
+                      const hash=await follow(neoline,account,accountId)
+                      setTxHash(hash)
+                      followhandler(accountId,account)
+                    }else{
+                      const hash=await unfollow(neoline,account,accountId)
+setTxHash(hash)
+                      unfollowhandler(accountId,account)
+                    }
+                     
                       // sendInput();
                     }}
                   >
-                    Follow
+                    {isFollowing?"Unfollow":"Follow"}  
                   </button>
                   </div>
+                  {txHash!=""&&<p className="mt-2 font-semibold">Tx hash: {txHash}</p>}
               </div>
             </div>
           </div>
