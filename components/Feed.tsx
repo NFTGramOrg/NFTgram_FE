@@ -119,6 +119,7 @@ function Feed({
                   width={500}
                   height={500}
                   className="rounded-xl image max-w-full max-h-full mx-auto"
+                  unoptimized={true}
                 />
               </div>
             )}
