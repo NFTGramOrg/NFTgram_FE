@@ -27,26 +27,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
 
     return result;
   }
-  const uploadImageToBucket = async (url:string) => {
-    try{ 
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const { data, error } = supabase
-       ? await supabase.storage
-      .from('images')
-      .upload(`${Date.now()}.png`, blob, {
-       contentType: 'image/png',
-      }): { data: null, error: new Error("supabase not initialized") };
-   
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data.path;
-   }
-    catch(err){
-      console.log(err)
-    }
-   };
+
   const callApi = async (input: string) => {
     setLoading(true);
     setPrompt(input);
@@ -79,7 +60,6 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
         const data = await res.json();
         if (data.image_url) {
           setImageUrl(data.image_url);
-          uploadImageToBucket(data.image_url);
         }
         if (data.content) {
           let fixedContent = removeNonUTF8Characters(data.content);

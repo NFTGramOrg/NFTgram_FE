@@ -11,7 +11,8 @@ const nextConfig = {
       "oaidalleapiprodscus.blob.core.windows.net",
       "i.ibb.co",
       "send.fs.neo.org",
-      "www.youtube.com"
+      "www.youtube.com",
+      "deegrjwtmqprtizddphp.supabase.co"
     ],
   },
   
