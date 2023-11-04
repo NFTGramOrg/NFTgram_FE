@@ -69,7 +69,7 @@ const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
             <div>
               <item.icon />
             </div>
-            <div>{item.title}</div>
+            <div className="text-white">{item.title}</div>
           </Link>
         ))}
         <div className="pt-5">

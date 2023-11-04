@@ -181,7 +181,7 @@ function Choose({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
             </Link>
           ))}
           {newAccount.length>0 &&   (
-              <Link href={`/profile/${newAccount[0]}`} key={6}>
+              <Link href={`/profile/${newAccount[0].value}`} key={6}>
                 <div
                   key={6}
                   className="flex flex-col  bg-slate-200 rounded-lg cursor-pointer"

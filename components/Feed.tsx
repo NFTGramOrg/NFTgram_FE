@@ -109,7 +109,7 @@ function Feed({
             </div>
           <Link href={"/post/" + postId}>
             <div className="text-white text-sm">{content}</div>
-            {image && (
+            {image && image.includes("png")&& (
               <div
                 className={`pt-3 aspect-square w-full h-96 rounded-xl`}
               >
@@ -122,7 +122,25 @@ function Feed({
                   // unoptimized={true}
                 />
               </div>
-            )}
+            )
+            }
+            {
+              image && image.includes("gif")&& (
+                <div
+                className={`pt-3 aspect-square w-full h-96 rounded-xl`}
+              >
+                <Image
+                  src={image}
+                  alt=""
+                  width={500}
+                  height={500}
+                  className="rounded-xl image max-w-full max-h-full mx-auto"
+                  unoptimized={true}
+                  // unoptimized={true}
+                />
+              </div>
+              )
+            }
             </Link>
             <div className="flex items-center mx-auto justify-between  mt-2 w-[90%]">
               <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer ">

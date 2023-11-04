@@ -3,7 +3,7 @@ import { NFT_ACCOUNTS_SCRIPT_HASH, NFT_SCRIPT_HASH } from "../../constants";
 const createPost = async (
   neolineN3: any,
   accountId: string,
-  prompt: string
+  prompt: string,
 ): Promise<String> => {
   let txId;
   try {
@@ -13,7 +13,6 @@ const createPost = async (
       args: [
         { type: "ByteArray", value: accountId },
         { type: "String", value: prompt },
-        { type: "Boolean", value: false },
         { type: "ByteArray", value: "" },
       ],
       fee: "0.0001",
