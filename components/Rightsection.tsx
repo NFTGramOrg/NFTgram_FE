@@ -43,7 +43,7 @@ function Rightsection() {
         </div>
       </div>
       <div className="flex flex-col rounded-xl bg-secondary my-4 backdrop-blur-xl  ">
-        <h3 className="font-bold text-xl my-4 px-4">Top NFTs now</h3>
+        <h3 className="font-bold text-xl my-4 px-4 text-white">Top NFTs now</h3>
         <div>
           {pokemons.map((pok, i) => (
             <div

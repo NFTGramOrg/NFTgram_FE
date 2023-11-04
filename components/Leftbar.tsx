@@ -67,7 +67,7 @@ const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
             href={`/${item.link}`}
           >
             <div>
-              <item.icon />
+              <item.icon color="white"/>
             </div>
             <div className="text-white">{item.title}</div>
           </Link>
@@ -88,8 +88,8 @@ const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
             alt=""
           ></Image>
           <div className="text-left text-sm">
-            <div className="font-semibold">Romario</div>
-            <div className="">rk</div>
+            <div className="font-semibold text-white">Romario</div>
+            <div className="text-white">rk</div>
           </div>
         </div>
         <div className="flex justify-end">
@@ -103,7 +103,7 @@ const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
               alt=""
               className="flex align-items-center flex-col mx-auto rounded-lg bg-white p-1"
             ></Image>
-            <p className="text-xs mt-1">
+            <p className="text-xs mt-1 text-white">
               {neoBalance}&nbsp;
               <span className="text-xs font-semibold">NEO</span>
             </p>
@@ -118,7 +118,7 @@ const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
               alt=""
               className="flex align-items-center flex-col mx-auto rounded-lg bg-white p-1"
             ></Image>
-            <p className="text-xs mt-1">
+            <p className="text-xs mt-1 text-white">
               {gasBalance}&nbsp;
               <span className="text-xs font-semibold">GAS</span>
             </p>

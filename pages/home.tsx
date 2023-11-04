@@ -10,8 +10,9 @@ const Home = () => {
   const [posts, setPosts] = React.useState<any>([]);
   const [neoline, setNeoLine] = useState();
   const [neolineN3, setNeoLineN3] = useState();
+  const [counter,setCounter]=useState(0);
   React.useEffect(() => {
-    console.log("TRYIG");
+          console.log("TRYIG");
     window.addEventListener("NEOLine.NEO.EVENT.READY", () => {
       console.log("NEOLine.NEO.EVENT.READY");
 
@@ -20,7 +21,11 @@ const Home = () => {
     window.addEventListener("NEOLine.N3.EVENT.READY", () => {
       setNeoLineN3(new window.NEOLineN3.Init());
     });
-  }, []);
+    if(counter===0){
+      // window.location.reload();
+      setCounter(1)
+    }
+      }, [counter]);
   React.useEffect(() => {
     console.log("Creating client");
     const supabase = SUPABASE_URL
@@ -48,13 +53,14 @@ const Home = () => {
     setPosts(array)
 }
   return (
+    <>{
     neoline != undefined &&
     neolineN3 != undefined && (
       <div className="w-full h-full flex justify-center items-center relative bg-bgcolor">
         <div className=" max-w-screen-2xl w-full h-full flex relative">
           <Leftbar neoline={neoline} neolineN3={neolineN3} />
           <main className="ml-[295px] flex w-[900px] p-6 min-h-screen g-full flex-col border-l-[0.5px] border-r border-accent">
-            <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0">
+            <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0 text-white">
               Home
             </h1>
             <NewPost neoline={neoline} neolineN3={neolineN3} />
@@ -75,7 +81,8 @@ const Home = () => {
           <Rightsection />
         </div>
       </div>
-    )
+      
+    )}</>
   );
 };
 
