@@ -51,11 +51,11 @@ function Choose({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
     },
     {
       name: "horsea",
-      image: "https://send.fs.neo.org/gate/get/9PhC4JqN7yFQ1mZXrQ6drYJmQDNM13WrytKqw19TNQcL",
+      image: "https://randompokemon.com/sprites/normal/horsea.png",
     },
     {
       name: "dragapult",
-      image: "https://send.fs.neo.org/gate/get/BvhBYdBpahvUv5d6wqfPokZi2xeZwpDNJF6xjUMSZjsD",
+      image: "https://randompokemon.com/sprites/normal/dragapult.png",
     },
   ];
 
