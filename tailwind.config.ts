@@ -7,9 +7,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        'sans': ['"Montserrat"'],
-      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
