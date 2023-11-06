@@ -43,7 +43,7 @@ function Choose({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
     {
       name: "bean",
       image:
-        "https://send.fs.neo.org/gate/get/GtQYvGLzvi2GiV4WeR8iYyq4D4H9uAkfgEX7CS7zrpQ9",
+        "https://deegrjwtmqprtizddphp.supabase.co/storage/v1/object/public/images/111.jpg?t=2023-11-06T16%3A09%3A36.046Z",
     },
     {
       name: "solrock",

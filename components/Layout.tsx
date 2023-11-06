@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import Head from "next/head";
 import { LayoutProvider } from "./LayoutContext";
 import { useRouter } from "next/router";
-import Leftbar from "./LeftBar";
+import Leftbar from "./Leftbar";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const { pathname } = useRouter();

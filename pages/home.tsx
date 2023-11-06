@@ -1,5 +1,5 @@
 import Feed from "@/components/Feed";
-import Leftbar from "@/components/LeftBar";
+// import Leftbar from "@/components/LeftBar";
 import NewPost from "@/components/NewPost";
 import Rightsection from "@/components/Rightsection";
 import React from "react";
