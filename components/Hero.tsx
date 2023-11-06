@@ -69,7 +69,7 @@ function Hero() {
 
               <div className=" text-8xl ">
                 <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-green-400 to-purple-500 lg:inline ">
-                  NFTgram
+                  NFTGram
                 </span>
               </div>
             </h1>

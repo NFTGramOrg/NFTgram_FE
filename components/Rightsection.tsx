@@ -33,7 +33,7 @@ function Rightsection() {
           <input
             id="searchBox"
             type="text"
-            placeholder="Search NFTgram"
+            placeholder="Search NFTGram"
             className="outline-none peer focus:border-primary focus:border bg-neutral-900/90 w-full h-full rounded-xl py-4 pl-14 pr-4"
           />
           <label

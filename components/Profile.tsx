@@ -14,35 +14,51 @@ import getIsFollowing from "@/utils/calls/getters/getIsFollowing";
 import unfollow from "@/utils/calls/setters/unfollow";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neolineN3:any, accountId: string,changePage:any }) {
+function Profile({
+  neoline,
+  neolineN3,
+  accountId,
+  changePage,
+}: {
+  neoline: any;
+  neolineN3: any;
+  accountId: string;
+  changePage: any;
+}) {
   const [account, setAccount] = useState("");
   const [accounts, setAccounts] = useState<any>([]);
   const [posts, setPosts] = useState<any>([]);
-  const [txHash,setTxHash]=useState<string>("")
+  const [txHash, setTxHash] = useState<string>("");
   const router = useRouter();
-  const [isFollowing,setIsFollowing] = useState<boolean>(false)
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [selectedAccount, setSelectedAccount] = useState<any>(null);
-  const [loading,setLoading] = useState(false)
-  const [mynft,setMynft] = useState<boolean>(false)
-  const followhandler = async (follow:string,by:string) => {
+  const [loading, setLoading] = useState(false);
+  const [mynft, setMynft] = useState<boolean>(false);
+  const followhandler = async (follow: string, by: string) => {
     const { data, error } = supabase
-        ? await supabase.rpc('follow', {follow: follow,by:by}): { data: null, error: new Error("supabase not initialized") };
-  }
-  const unfollowhandler=async (unfollow:string,by:string)=>{
-    const {data,error}=supabase?await supabase.rpc('unfollow',{follow:unfollow,by:by}):{data:null,error:new Error("supabase not initialized")}
+      ? await supabase.rpc("follow", { follow: follow, by: by })
+      : { data: null, error: new Error("supabase not initialized") };
+  };
+  const unfollowhandler = async (unfollow: string, by: string) => {
+    const { data, error } = supabase
+      ? await supabase.rpc("unfollow", { follow: unfollow, by: by })
+      : { data: null, error: new Error("supabase not initialized") };
+  };
+
+  async function updateIsFollowing(selectedAccount: string) {
+    const retData = await getIsFollowing(
+      neoline,
+      selectedAccount == "" ? account : selectedAccount,
+      accountId
+    );
+    setIsFollowing(retData);
   }
 
-  async function updateIsFollowing(selectedAccount:string)
-  {
-    const retData=await getIsFollowing(neoline,selectedAccount==""?account:selectedAccount,accountId)
-    setIsFollowing(retData)
-  }
-
-  useEffect(()=>{
-(async function(){
-  await updateIsFollowing("")
-})()
-  },[])
+  useEffect(() => {
+    (async function () {
+      await updateIsFollowing("");
+    })();
+  }, []);
   useEffect(() => {
     (async function () {
       const { data, error } = supabase
@@ -59,9 +75,9 @@ function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neoli
       } else if (data.length > 0) {
         console.log(data[0]);
         setSelectedAccount(data[0]);
-        if(data[0].wallet_address=="NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR"){
-          setMynft(true)
-          console.log(mynft)
+        if (data[0].wallet_address == "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR") {
+          setMynft(true);
+          console.log(mynft);
         }
       } else {
         console.log("Seleceted Account not fetched");
@@ -107,10 +123,10 @@ function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neoli
       console.log(data);
       setAccounts(data || []);
     })();
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account]);
-  console.log(accountId,"accountid");
+  console.log(accountId, "accountid");
 
   return (
     selectedAccount &&
@@ -144,90 +160,99 @@ function Profile({neoline,neolineN3, accountId,changePage }: {neoline: any,neoli
             </div>
             <div className="flex flex-col text-right">
               <div>
-                
                 <select
                   id="countries"
-                  
-                  className= {!mynft?"hidden":`text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`}
+                  className={
+                    !mynft
+                      ? "hidden"
+                      : `text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`
+                  }
                   onChange={(e) => {
-                    console.log("HEYYY"+e.target.value  )
-                    changePage(e.target.value)
-                    setAccount(e.target.value)
-
+                    console.log("HEYYY" + e.target.value);
+                    changePage(e.target.value);
+                    setAccount(e.target.value);
                   }}
                 >
                   <option defaultValue={0} className="font-semibold">
                     Choose Your Account
                   </option>
                   {accounts.map((item: any, index: any) => (
-                    
                     <option
                       value={item.userid}
                       key={index}
                       className="font-semibold"
                     >
                       {item.username}&nbsp;({item.userid})
-
                     </option>
                   ))}
                 </select>
                 <div className="flex">
-                <select
-                  id="countries"
-                  
-                  className= {mynft?"hidden":`text-sm mr-5 rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`}
-                  onChange={async(e) => {
-                    console.log("HEYYY"+e.target.value  )
-                      if(e.target.value=="Choose Your Account")
-                      {
-                        setAccount("")
-                        await updateIsFollowing("")
-                      }else{
-                        setAccount(e.target.value)
-                        await updateIsFollowing(e.target.value)
-                      }
-                  
-
-                  }}
-                >
-                  <option defaultValue={0} className="font-semibold">
-                    Choose Your Account
-                  </option>
-                  {accounts.map((item: any, index: any) => (
-                    
-                    <option
-                      value={item.userid}
-                      key={index}
-                      className="font-semibold"
-                    >
-                      {item.username}&nbsp;({item.userid})
-
-                    </option>
-                  ))}
-                </select>
-                <button
-                    className={mynft?"hidden":"rounded-full top bg-secondary px-8 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500 -mr-2 "}
-                    disabled={account==""}
-                    onClick={async() => {
-
-                      if(!isFollowing)
-                    {
-                      const hash=await follow(neolineN3,account,accountId)
-                      setTxHash(hash)
-                      followhandler(accountId,account)
-                    }else{
-                      const hash=await unfollow(neolineN3,account,accountId)
-setTxHash(hash)
-                      unfollowhandler(accountId,account)
+                  <select
+                    id="countries"
+                    className={
+                      mynft
+                        ? "hidden"
+                        : `text-sm mr-5 rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent`
                     }
-                     
+                    onChange={async (e) => {
+                      console.log("HEYYY" + e.target.value);
+                      if (e.target.value == "Choose Your Account") {
+                        setAccount("");
+                        await updateIsFollowing("");
+                      } else {
+                        setAccount(e.target.value);
+                        await updateIsFollowing(e.target.value);
+                      }
+                    }}
+                  >
+                    <option defaultValue={0} className="font-semibold">
+                      Choose Your Account
+                    </option>
+                    {accounts.map((item: any, index: any) => (
+                      <option
+                        value={item.userid}
+                        key={index}
+                        className="font-semibold"
+                      >
+                        {item.username}&nbsp;({item.userid})
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    className={
+                      mynft
+                        ? "hidden"
+                        : "rounded-full top bg-secondary px-8 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500 -mr-2 "
+                    }
+                    disabled={account == ""}
+                    onClick={async () => {
+                      if (!isFollowing) {
+                        const hash = await follow(
+                          neolineN3,
+                          account,
+                          accountId
+                        );
+                        setTxHash(hash);
+                        followhandler(accountId, account);
+                      } else {
+                        const hash = await unfollow(
+                          neolineN3,
+                          account,
+                          accountId
+                        );
+                        setTxHash(hash);
+                        unfollowhandler(accountId, account);
+                      }
+
                       // sendInput();
                     }}
                   >
-                    {isFollowing?"Unfollow":"Follow"}  
+                    {isFollowing ? "Unfollow" : "Follow"}
                   </button>
-                  </div>
-                  {txHash!=""&&<p className="mt-2 font-semibold">Tx hash: {txHash}</p>}
+                </div>
+                {txHash != "" && (
+                  <p className="mt-2 font-semibold">Tx hash: {txHash}</p>
+                )}
               </div>
             </div>
           </div>

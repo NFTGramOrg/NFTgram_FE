@@ -1,6 +1,19 @@
 import Landing from "@/components/Landing";
-import React from "react";
+import Head from "next/head";
+import React, { useEffect } from "react";
 const Home = () => {
-  return <Landing />;
+  useEffect(() => {
+    console.log("Has Reloaded false");
+    localStorage.setItem("hasReloaded", "false");
+  }, []);
+  return (
+    <>
+      <Head>
+        <title>NFTGram </title>
+        <link rel="icon" href="/nftgram.png" />
+      </Head>
+      <Landing />
+    </>
+  );
 };
 export default Home;

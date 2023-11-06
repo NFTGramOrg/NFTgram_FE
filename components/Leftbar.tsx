@@ -6,6 +6,7 @@ import { HiOutlineHashtag } from "react-icons/hi";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import getBalance from "@/utils/calls/getters/getBalance";
+import { useLayoutContext } from "./LayoutContext";
 const NAVIGATION_ITEMS = [
   {
     title: "Home",
@@ -28,7 +29,9 @@ const NAVIGATION_ITEMS = [
     icon: BsBell,
   },
 ];
-const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
+const Leftbar = () => {
+  const { neoline, neolineN3 } = useLayoutContext();
+
   const [neoBalance, setNeoBalance] = useState<string>("0");
   const [gasBalance, setGasBalance] = useState<string>("0");
 
@@ -56,7 +59,7 @@ const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
               className="flex flex-col mx-3 rounded-full"
             />
             <div className="flex flex-col justify-center text-xl font-extrabold">
-              NFTgram
+              NFTGram
             </div>
           </div>
         </Link>
@@ -67,7 +70,7 @@ const Leftbar = ({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) => {
             href={`/${item.link}`}
           >
             <div>
-              <item.icon color="white"/>
+              <item.icon color="white" />
             </div>
             <div className="text-white">{item.title}</div>
           </Link>

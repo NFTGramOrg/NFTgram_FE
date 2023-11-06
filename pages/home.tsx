@@ -1,31 +1,15 @@
 import Feed from "@/components/Feed";
-import Leftbar from "@/components/Leftbar";
+import Leftbar from "@/components/LeftBar";
 import NewPost from "@/components/NewPost";
 import Rightsection from "@/components/Rightsection";
-import React, { useState } from "react";
+import React from "react";
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
+import { useLayoutContext } from "@/components/LayoutContext";
 
 const Home = () => {
   const [posts, setPosts] = React.useState<any>([]);
-  const [neoline, setNeoLine] = useState();
-  const [neolineN3, setNeoLineN3] = useState();
-  const [counter,setCounter]=useState(0);
-  React.useEffect(() => {
-          console.log("TRYIG");
-    window.addEventListener("NEOLine.NEO.EVENT.READY", () => {
-      console.log("NEOLine.NEO.EVENT.READY");
-
-      setNeoLine(new window.NEOLineN3.Init());
-    });
-    window.addEventListener("NEOLine.N3.EVENT.READY", () => {
-      setNeoLineN3(new window.NEOLineN3.Init());
-    });
-    if(counter===0){
-      // window.location.reload();
-      setCounter(1)
-    }
-      }, [counter]);
+  const { neoline, neolineN3 } = useLayoutContext();
   React.useEffect(() => {
     console.log("Creating client");
     const supabase = SUPABASE_URL
@@ -45,20 +29,17 @@ const Home = () => {
       shuffleArray(data || []);
     })();
   }, []);
-  function shuffleArray(array:any[]) {
+  function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-    setPosts(array)
-}
+    setPosts(array);
+  }
   return (
-    <>{
-    neoline != undefined &&
-    neolineN3 != undefined && (
-      <div className="w-full h-full flex justify-center items-center relative bg-bgcolor">
-        <div className=" max-w-screen-2xl w-full h-full flex relative">
-          <Leftbar neoline={neoline} neolineN3={neolineN3} />
+    <>
+      {neoline != undefined && neolineN3 != undefined && (
+        <>
           <main className="ml-[295px] flex w-[900px] p-6 min-h-screen g-full flex-col border-l-[0.5px] border-r border-accent">
             <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0 text-white">
               Home
@@ -79,10 +60,9 @@ const Home = () => {
             ))}
           </main>
           <Rightsection />
-        </div>
-      </div>
-      
-    )}</>
+        </>
+      )}
+    </>
   );
 };
 
