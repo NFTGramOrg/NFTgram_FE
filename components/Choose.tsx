@@ -42,7 +42,8 @@ function Choose({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
   const nfts = [
     {
       name: "bean",
-      image: "/bean.jpg",
+      image:
+        "https://send.fs.neo.org/gate/get/GtQYvGLzvi2GiV4WeR8iYyq4D4H9uAkfgEX7CS7zrpQ9",
     },
     {
       name: "solrock",
