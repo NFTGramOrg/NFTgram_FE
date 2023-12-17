@@ -10,7 +10,7 @@ type ResponseData = {
 interface GenereateNextApiRequest extends NextApiRequest {
   body: {
     prompt: string;
-    image:boolean;
+    image: boolean;
     kind: number;
     sad: number;
     funny: number;
@@ -22,23 +22,23 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-const dnow =Date.now();
-const uploadImageToBucket = async (url:string) => {
-  const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-  const response = await fetch(url, { mode: 'cors' });
+const dnow = Date.now();
+const uploadImageToBucket = async (url: string) => {
+  const supabase = SUPABASE_URL
+    ? createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+  const response = await fetch(url, { mode: "cors" });
   const blob = await response.blob();
   const { data, error } = supabase
-    ? await supabase.storage
-    .from('images')
-    .upload(`${dnow}.png`, blob, {
-    contentType: 'image/png',
-    }): { data: null, error: new Error("supabase not initialized") };
+    ? await supabase.storage.from("images").upload(`${dnow}.png`, blob, {
+        contentType: "image/png",
+      })
+    : { data: null, error: new Error("supabase not initialized") };
 
   if (error) {
     throw new Error(error.message);
   }
-  if(data.path!=undefined)
-  return data.path;
+  if (data.path != undefined) return data.path;
   else return "no image";
 };
 export default async function handler(
@@ -60,29 +60,39 @@ export default async function handler(
   });
   let img_url: string | undefined;
   let publicUrl: string | undefined;
-  let imagemood='';
-  if(req.body.sad>req.body.funny && req.body.sad>req.body.kind && req.body.sad>req.body.angry){
-    imagemood='sad';
+  let imagemood = "";
+  if (
+    req.body.sad > req.body.funny &&
+    req.body.sad > req.body.kind &&
+    req.body.sad > req.body.angry
+  ) {
+    imagemood = "sad";
+  } else if (
+    req.body.funny > req.body.sad &&
+    req.body.funny > req.body.kind &&
+    req.body.funny > req.body.angry
+  ) {
+    imagemood = "funny";
+  } else if (
+    req.body.kind > req.body.sad &&
+    req.body.kind > req.body.funny &&
+    req.body.kind > req.body.angry
+  ) {
+    imagemood = "kind";
+  } else {
+    imagemood = "angry";
   }
-  else if(req.body.funny>req.body.sad && req.body.funny>req.body.kind && req.body.funny>req.body.angry){
-    imagemood='funny';
-  }
-  else if(req.body.kind>req.body.sad && req.body.kind>req.body.funny && req.body.kind>req.body.angry){
-    imagemood='kind';
-  }
-  else{
-    imagemood='angry';
-  }
-  if(req.body.image){
+  if (req.body.image) {
     const imgresponse = await openai.createImage({
-      prompt:`${req.body.prompt} and  ${req.body.profile} ,${imagemood},high quality,pokemon styled cartoon.`,
+      prompt: `${req.body.prompt} and  ${req.body.profile} ,${imagemood},high quality,pokemon styled cartoon.`,
       n: 1,
       size: "512x512",
     });
     img_url = imgresponse.data.data[0].url || "Image unavailable";
-    uploadImageToBucket(img_url)
-    publicUrl ="https://deegrjwtmqprtizddphp.supabase.co/storage/v1/object/public/images/"+dnow+".png"
+    // uploadImageToBucket(img_url)
+    // publicUrl ="https://deegrjwtmqprtizddphp.supabase.co/storage/v1/object/public/images/"+dnow+".png"
+    publicUrl = img_url;
   }
   const response = aiResult.data.choices[0].text?.trim() || "error occoured";
-  res.status(200).json({ content: response,image_url:publicUrl ?? "" });
+  res.status(200).json({ content: response, image_url: publicUrl ?? "" });
 }
