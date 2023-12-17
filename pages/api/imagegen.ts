@@ -2,6 +2,10 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 
+async function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -40,7 +44,12 @@ export default async function handler(
           // Check if the response indicates success
           if (responseData.success) {
             const { messageId } = responseData;
-            return res.status(200).json({ messageId });
+
+            // Start the polling loop to check progress with a 2-minute timeout
+            await pollProgress(messageId, token, 120000, res); // Pass res as an argument
+
+            // Respond with success
+            return res.status(200).json({ success: true });
           } else {
             return res.status(400).json({ error: 'API request was not successful' });
           }
@@ -63,4 +72,46 @@ export default async function handler(
     // Handle other HTTP methods
     res.status(405).json({ error: 'Method Not Allowed' });
   }
+}
+
+async function pollProgress(messageId: string, token: string, timeout: number, res: NextApiResponse): Promise<void> {
+  const startTime = Date.now();
+
+  while (Date.now() - startTime < timeout) {
+    // Make the GET request to check progress
+    const progressApiUrl = `https://api.thenextleg.io/v2/message/${messageId}`;
+    const progressApiResponse = await fetch(progressApiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
+
+    // Check if the API request was successful
+    if (progressApiResponse.ok) {
+      const progressData = await progressApiResponse.json();
+
+      // Check if progress is 100%
+      if (progressData.progress === 100) {
+        // Send the final response with image URLs
+        return res.status(200).json(progressData.response);
+      }
+      else{
+        console.log(progressData.progress);
+      }
+    } else {
+      const errorData = await progressApiResponse.text();
+      console.error('External API Error:', errorData);
+
+      // You might want to handle errors here and return an appropriate response
+      return res.status(progressApiResponse.status).json({ error: 'External API Error', rawError: errorData });
+    }
+
+    // Wait for a specified interval before making the next request (e.g., 5 seconds)
+    await delay(5000); // Adjust the interval as needed
+  }
+
+  // If the timeout is reached, respond with an appropriate message
+  return res.status(500).json({ error: 'Timeout: Progress not reached 100% within 2 minutes' });
 }
