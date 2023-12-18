@@ -41,7 +41,7 @@ const Home = () => {
       {neoline != undefined && neolineN3 != undefined && (
         <>
           <main className="ml-[295px] flex w-[900px] p-6 min-h-screen g-full flex-col border-l-[0.5px] border-r border-accent">
-            <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0 text-white">
+            <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0 text-white border-b">
               Home
             </h1>
             <NewPost neoline={neoline} neolineN3={neolineN3} />

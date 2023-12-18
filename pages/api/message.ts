@@ -7,11 +7,11 @@ async function delay(ms: number): Promise<void> {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Check if the request method is GET
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     try {
       // Extract the authorization bearer token from the request headers
-      const token = req.headers.authorization;
-
+      // const token = req.headers.authorization;
+      const token = `Bearer ${process.env.MIDJOURNEY_KEY}`
       // Check if the token is present
       if (!token) {
         return res.status(401).json({ error: 'Authorization header missing' });
