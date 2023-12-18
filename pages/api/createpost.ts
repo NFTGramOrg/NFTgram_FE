@@ -1,12 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Configuration, OpenAIApi } from "openai";
-import { useState } from "react";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 import { createClient } from "@supabase/supabase-js";
-type ResponseData = {
-  content: string;
-  image_url: string;
-};
 interface GenereateNextApiRequest extends NextApiRequest {
   body: {
     prompt: string;
@@ -23,27 +18,9 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 const dnow = Date.now();
-const uploadImageToBucket = async (url: string) => {
-  const supabase = SUPABASE_URL
-    ? createClient(SUPABASE_URL, SUPABASE_KEY)
-    : null;
-  const response = await fetch(url, { mode: "cors" });
-  const blob = await response.blob();
-  const { data, error } = supabase
-    ? await supabase.storage.from("images").upload(`${dnow}.png`, blob, {
-        contentType: "image/png",
-      })
-    : { data: null, error: new Error("supabase not initialized") };
-
-  if (error) {
-    throw new Error(error.message);
-  }
-  if (data.path != undefined) return data.path;
-  else return "no image";
-};
 export default async function handler(
   req: GenereateNextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse
 ) {
   const prmt = `Assume you are a person with the following characteristics: ${req.body.sad}% sad, ${req.body.kind}% kind, ${req.body.funny}% funny, ${req.body.angry}% angry. Do not use % in the generated content. Strictly no emojis in texts or hashtags. Only UTF-8 characters. Generate a tweet for this prompt "${req.body.prompt}" `;
   const prompt = prmt;
@@ -58,8 +35,6 @@ export default async function handler(
     frequency_penalty: 0.5,
     presence_penalty: 0,
   });
-  let img_url: string | undefined;
-  let publicUrl: string | undefined;
   let imagemood = "";
   if (
     req.body.sad > req.body.funny &&
@@ -83,16 +58,30 @@ export default async function handler(
     imagemood = "angry";
   }
   if (req.body.image) {
-    const imgresponse = await openai.createImage({
-      prompt: `${req.body.prompt} and  ${req.body.profile} ,${imagemood},high quality,pokemon styled cartoon.`,
-      n: 1,
-      size: "512x512",
+    try{
+    const apiUrl = 'https://api.thenextleg.io/v2/imagine'; // Replace with your actual external API URL
+    const apiResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.MIDJOURNEY_KEY}`,
+      },
+      body: JSON.stringify({ "msg":prompt }),
     });
-    img_url = imgresponse.data.data[0].url || "Image unavailable";
-    // uploadImageToBucket(img_url)
-    // publicUrl ="https://deegrjwtmqprtizddphp.supabase.co/storage/v1/object/public/images/"+dnow+".png"
-    publicUrl = img_url;
+    if (apiResponse.ok) {
+      const responseData = await apiResponse.json();
+      const { messageId } = responseData;
+      const response = aiResult.data.choices[0].text?.trim() || "error occoured";
+      res.status(200).json({ content: response, messageId: messageId});
+    } else {
+      const errorData = await apiResponse.text();
+      console.error('External API Error:', errorData);
+      res.status(apiResponse.status).json({ error: 'External API Error', rawError: errorData });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
-  const response = aiResult.data.choices[0].text?.trim() || "error occoured";
-  res.status(200).json({ content: response, image_url: publicUrl ?? "" });
+  }
 }
+
