@@ -80,95 +80,104 @@ function Feed({
   }, [sadR,angryR,laughR,hapR])
   
   return (
-    <div className="flex flex-col  ">
-        <div className="border-t-[0.5px] p-4 border-b-[0.5px] border-accent hover:bg-black ">
-          <div className="flex flex-col space-y-5">
-            <div className="flex items-center space-x-1 ">
-              <div>
-                <div className="w-10 h-10 bg-black rounded-full ">
-                  <Image
-                    className="rounded-full  bg-white "
-                    src={userImage || ""}
-                    alt=""
-                    width={40}
-                    height={40}
-                    priority={true}
-                  />
-                </div>
+    <div className="flex flex-col  hover:bg-black">
+      <div className="p-4 ">
+        <div className="flex flex-col space-y-5">
+          <div className="flex items-center space-x-1">
+              <div className=" w-14 h-14 bg-black rounded-full">
+                <Image
+                  className="rounded-full bg-white"
+                  src={userImage || ""}
+                  alt=""
+                  width={80}
+                  height={80}
+                  priority={true}
+                />
               </div>
-              <Link href={"/profile/" + userId}>
+            <Link href={"/profile/" + userId}>
               <div className="font-bold pl-2 text-secondary">{name}</div>
-              </Link>
-              <div className="text-primary">@{userId}</div>
-              
-              <div>
-                <BsDot />
-              </div>
-              <div>{timeAgo(createdAt)}</div>
-
-            </div>
-          <Link href={"/post/" + postId}>
-            <div className="text-white text-sm">{content}</div>
-            {image && image.includes("png")&& (
-              <div
-                className={`pt-3 aspect-square w-full h-96 rounded-xl`}
-              >
-                <Image
-                  src={image}
-                  alt=""
-                  width={500}
-                  height={500}
-                  className="rounded-xl image max-w-full max-h-full mx-auto"
-                  // unoptimized={true}
-                />
-              </div>
-            )
-            }
-            {
-              image && image.includes("gif")&& (
-                <div
-                className={`pt-3 aspect-square w-full h-96 rounded-xl`}
-              >
-                <Image
-                  src={image}
-                  alt=""
-                  width={500}
-                  height={500}
-                  className="rounded-xl image max-w-full max-h-full mx-auto"
-                  unoptimized={true}
-                  // unoptimized={true}
-                />
-              </div>
-              )
-            }
             </Link>
-            <div className="flex items-center mx-auto justify-between  mt-2 w-[90%]">
-              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer ">
-                
-                <BsChat />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>hap(postId,userId)}>
-              <p className="text-xs mr-3" >{hapR}</p>
-                <BiHappyAlt />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>angry(postId,userId)}>
-              <p className="text-xs mr-3" >{angryR}</p>
-                <BiAngry />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>sad(postId,userId)}>
-              <p className="text-xs mr-3" >{sadR}</p>
-                <BiSad />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>laugh(postId,userId)}>
-              <p className="text-xs mr-3">{laughR}</p>
-                <FaRegLaughSquint />
-              </div>
+            <div className="text-primary">@{userId}</div>
+            <div>
+              <BsDot />
             </div>
-
+            <div>
+              {timeAgo(createdAt)}
+            </div>
+            <div>
+              
+            </div>
           </div>
         </div>
-    </div>
+      </div>
+  
+      {/* Post Details */}
+      <div className="flex flex-col p-4 border-b-[0.2px] border-slate-800 hover:bg-black">
+        <Link href={"/post/" + postId}>
+          <div className="text-white text-sm">{content}</div>
+          {image && image.includes("png") && (
+            <div className={`pt-3 aspect-square w-full h-96 rounded-xl`}>
+              <Image
+                src={image}
+                alt=""
+                width={500}
+                height={500}
+                className="rounded-xl image max-w-full max-h-full mx-auto"
+              />
+            </div>
+          )}
+          {image && image.includes("gif") && (
+            <div className={`pt-3 aspect-square w-full h-96 rounded-xl`}>
+              <Image
+                src={image}
+                alt=""
+                width={500}
+                height={500}
+                className="rounded-xl image max-w-full max-h-full mx-auto"
+                unoptimized={true}
+              />
+            </div>
+          )}
+        </Link>
+  
+        {/* Interaction Buttons */}
+        <div className="flex items-center mx-auto justify-between mt-2 w-[90%]">
+          <div className="rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer">
+            <BsChat />
+          </div>
+          <div
+            className="flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer"
+            onClick={() => hap(postId, userId)}
+          >
+            <p className="text-xs mr-3">{hapR}</p>
+            <BiHappyAlt />
+          </div>
+          <div
+            className="flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer"
+            onClick={() => angry(postId, userId)}
+          >
+            <p className="text-xs mr-3">{angryR}</p>
+            <BiAngry />
+          </div>
+          <div
+            className="flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer"
+            onClick={() => sad(postId, userId)}
+          >
+            <p className="text-xs mr-3">{sadR}</p>
+            <BiSad />
+          </div>
+          <div
+            className="flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer"
+            onClick={() => laugh(postId, userId)}
+          >
+            <p className="text-xs mr-3">{laughR}</p>
+            <FaRegLaughSquint />
+          </div>
+        </div>
+      </div>
+      </div>
   );
+  
 }
 
 export default Feed;

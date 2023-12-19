@@ -40,11 +40,12 @@ const Home = () => {
     <>
       {neoline != undefined && neolineN3 != undefined && (
         <>
-          <main className="ml-[295px] flex w-[900px] p-6 min-h-screen g-full flex-col border-l-[0.5px] border-r border-accent">
-            <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0 text-white border-b">
+          <main className="ml-[295px] flex w-[900px]  min-h-screen g-full flex-col border-l-[0.2px] border-r border-slate-800">
+            <h1 className="text-xl font-bold p-6 backdrop-blur bg-black/10 sticky top-0 text-white border-b-[0.2px] border-slate-800">
               Home
             </h1>
             <NewPost neoline={neoline} neolineN3={neolineN3} />
+            <div className="pt-2 mt-2 border-t border-slate-800"></div>
             {posts.map((post: any, index: any) => (
               <Feed
                 key={index}

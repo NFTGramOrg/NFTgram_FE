@@ -273,7 +273,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
         )
         }
         {!loading &&!imageSelect&& (
-          <div className="border-t-[0.5px] px-4 border-b-[0.5px] flex items-stretch py-6 space-x-2 border-accent relative">
+          <div className="border-t-[0.5px] px-4 border-b-[0.2px] flex items-stretch py-6 space-x-2  relative border-slate-800">
             <div className="w-11 h-11 bg-slate-400 rounded-full flex-none"></div>
             <form className="flex flex-col w-full h-full" onSubmit={onSubmit}>
               <input
