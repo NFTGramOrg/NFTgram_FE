@@ -47,7 +47,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
         ? await supabase.from("profile").select("*").eq("userid", nftid)
         : { data: null, error: new Error("supabase not initialized") };
       if (account != null && account.length > 0) {
-        const { kind, sad, funny, angry,nftdesc } = account[0];
+        const { kind, sad, funny, angry,nftdesc,profilepic } = account[0];
         const res = await fetch("/api/createpost", {
           method: "POST",
           headers: {
@@ -55,6 +55,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
           },
           body: JSON.stringify({
             prompt: input,
+            nft:profilepic,
             kind,
             sad,
             funny,
@@ -73,21 +74,6 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
         else {
           console.error('Error calling /api/createpost endpoint:', res.statusText);
         }
-        // if (data.image_url) {
-        //   setImageUrl(data.image_url);
-        // }
-        // if (data.content) {
-        //   let fixedContent = removeNonUTF8Characters(data.content);
-        //   let image = data.image_url;
-        //   setContent(fixedContent);
-        //   console.log(fixedContent);
-        //   await sendInput(input, fixedContent, image);
-        //   console.log(neolineN3 != undefined);
-        //   const tid=await createPost(neolineN3, nftid, encodeURIComponent(input));
-        //   setTxnid(tid);
-        // } else {
-        //   console.log("error");
-        // }
       } else {
         console.log("Account not found ");
       }
@@ -214,6 +200,11 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
       handletransaction();
     }
     }, [image_url]);
+  useEffect(() => {
+    if(txnid.length>2){
+      refreshpage();
+    }
+  },[txnid]);
   return (
     neoline != undefined &&
     neolineN3 != undefined && (
@@ -230,7 +221,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                 {progress}%
                 </div>
             </div>
-          <div className="w-full max-w-[160px] flex-col mt-4">
+          {/* <div className="w-full max-w-[160px] flex-col mt-4">
               <button
                 disabled={!refresh}
                 className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
@@ -244,7 +235,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
             </div>
             <div className="text-xl font-bold mt-5 justify-center">
               Txnid:{txnid}
-            </div>
+            </div> */}
           </div>
         )}{imageSelect&&(
             <div className="container  px-2 py-2 lg:px-16 pb-10">

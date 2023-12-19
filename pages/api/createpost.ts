@@ -6,6 +6,7 @@ interface GenereateNextApiRequest extends NextApiRequest {
   body: {
     prompt: string;
     image: boolean;
+    nft:string;
     kind: number;
     sad: number;
     funny: number;
@@ -60,13 +61,14 @@ export default async function handler(
   if (req.body.image) {
     try{
     const apiUrl = 'https://api.thenextleg.io/v2/imagine'; // Replace with your actual external API URL
+    const imageprmt =`${req.body.nft} you are this nft,${req.body.profile}, the nft is present in the picture along with ${req.body.prompt},${req.body.prompt}, mood of the image is ${imagemood},cartoony,4k,no text`;
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.MIDJOURNEY_KEY}`,
       },
-      body: JSON.stringify({ "msg":prompt }),
+      body: JSON.stringify({ "msg":imageprmt }),
     });
     if (apiResponse.ok) {
       const responseData = await apiResponse.json();
