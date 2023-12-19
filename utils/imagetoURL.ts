@@ -13,9 +13,9 @@ const uploadImageToBucket = async (url: string) => {
         })
       : { data: null, error: new Error("supabase not initialized") };
   
-    if (error) {
-      throw new Error(error.message);
-    }
+      if (error) {
+        throw new Error(error.message);
+      }
     if (data.path != undefined) return data.path;
     else return "no image";
   };

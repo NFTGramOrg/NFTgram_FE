@@ -4,6 +4,7 @@ import useState from "react-usestateref";
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 import createPost from "@/utils/calls/setters/createPost";
+import uploadImageToBucket from "@/utils/imagetoURL";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
   const [txnid,setTxnid]=useState<String>(' ');
@@ -191,13 +192,35 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
         };
     setButtonClicked(true);
   };
+  const saveimg = async () => {
+    setImageUrl(`https://deegrjwtmqprtizddphp.supabase.co/storage/v1/object/public/images/${await uploadImageToBucket(selectedImageurl)}`)
+  }
+  const handletransaction = async () => {
+            if (content!=null) {
+          let fixedContent = removeNonUTF8Characters(content);
+          setContent(fixedContent);
+          console.log(fixedContent);
+          await sendInput(input, fixedContent, image_url);
+          console.log(neolineN3 != undefined);
+          const tid=await createPost(neolineN3, nftid, encodeURIComponent(input));
+          setTxnid(tid);
+        } else {
+          console.log("error");
+        }
+  }
+  useEffect(() => {
+    console.log("saved Image:",image_url);
+    if(image_url!=""){
+      handletransaction();
+    }
+    }, [image_url]);
   return (
     neoline != undefined &&
     neolineN3 != undefined && (
       <>
       {loading&&(
         <div className="flex flex-col my-20 w-full h-11 text-2xl text-center justify-center items-center">
-        <h4 className="text-2xl font-bold text-secondary mb-4">Generating Caption</h4>
+        <h4 className="text-2xl font-bold text-secondary mb-4">Generating Post</h4>
 
             <div className=" w-11/12 bg-neutral-200 dark:bg-neutral-600 rounded-lg mb-6 ">
                 <div
@@ -248,7 +271,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                 disabled={!refresh}
                 className="rounded-full top bg-secondary px-4 mt-6 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
                 onClick={() => {
-                  // refreshpage();
+                    saveimg();
                 }}
               >
                 Proceed With Post
