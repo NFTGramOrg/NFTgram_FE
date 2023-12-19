@@ -122,6 +122,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
             setProgress("100");
             console.log(messageData.imageUrls);
             setImageUrls(messageData.imageUrls);
+            setSelectedImageurl(messageData.imageUrls[0]);
             setLoading(false);
             setImageSelect(true);
             return;
