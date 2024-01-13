@@ -99,9 +99,9 @@ function Feed({
             </Link>
             <div className="text-primary">@{userId}</div>
             <div>
-              <BsDot />
+              <BsDot color="white"/>
             </div>
-            <div>
+            <div className="text-white">
               {timeAgo(createdAt)}
             </div>
             <div>

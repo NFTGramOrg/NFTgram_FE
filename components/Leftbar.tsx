@@ -76,7 +76,7 @@ const Leftbar = () => {
           </Link>
         ))}
         <div className="pt-5">
-          <button className=" w-3/4  rounded-full bg-secondary px-2 py-4  text-xl font-semibold text-center hover:bg-opacity-70 transition duration-200  ">
+          <button className=" w-3/4  rounded-full bg-secondary px-2 py-4  text-xl font-semibold text-center hover:bg-opacity-70 transition duration-200 text-white">
             Make Post
           </button>
         </div>

@@ -345,7 +345,7 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                   <button
                     type="submit"
                     disabled={buttondisabled}
-                    className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
+                    className="text-white rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
                     onClick={() => {
                       // sendInput();
                     }}
