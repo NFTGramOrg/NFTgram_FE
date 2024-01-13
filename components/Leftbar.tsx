@@ -6,7 +6,9 @@ import { HiOutlineHashtag } from "react-icons/hi";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import getBalance from "@/utils/calls/getters/getBalance";
+import getAccount from "@/utils/calls/getters/getAccount";
 import { useLayoutContext } from "./LayoutContext";
+import neolien from "@/public/neoline.jpeg"
 const NAVIGATION_ITEMS = [
   {
     title: "Home",
@@ -85,14 +87,20 @@ const Leftbar = () => {
         <div className="flex items-center space-x-2">
           <Image
             className="rounded-full  "
-            src={"https://avatars.githubusercontent.com/u/98270892?v=4"}
+            src={neolien}
             width={40}
             height={40}
             alt=""
           ></Image>
           <div className="text-left text-sm">
-            <div className="font-semibold text-white">Romario</div>
-            <div className="text-white">rk</div>
+            <div className="font-semibold ">
+            <select className=" backdrop-blur-sm  bg-bgcolor ">
+              <option value="0" className="">Testnet</option>
+              <option value="1">Mainnet</option>
+            </select>
+
+            </div>
+            <div className="text-white ml-1">NEO</div>
           </div>
         </div>
         <div className="flex justify-end">
