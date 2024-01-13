@@ -58,7 +58,7 @@ const Leftbar = () => {
               alt=""
               className="flex flex-col mx-3 rounded-full"
             />
-            <div className="flex flex-col justify-center text-xl font-extrabold">
+            <div className="flex flex-col justify-center text-xl font-extrabold text-white  ">
               NFTGram
             </div>
           </div>

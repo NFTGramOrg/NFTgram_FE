@@ -18,7 +18,6 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-const dnow = Date.now();
 export default async function handler(
   req: GenereateNextApiRequest,
   res: NextApiResponse
@@ -61,7 +60,9 @@ export default async function handler(
   if (req.body.image) {
     try{
     const apiUrl = 'https://api.thenextleg.io/v2/imagine'; // Replace with your actual external API URL
-    const imageprmt =`${req.body.nft} you are this nft,${req.body.profile}, the nft is present in the picture along with ${req.body.prompt},${req.body.prompt}, mood of the image is ${imagemood},cartoony,4k,no text`;
+    const imageprmt =`${req.body.nft} ${req.body.prompt} ${req.body.profile} ${req.body.prompt} cartoony 4k --iw .2`;
+    // const imageprmt =`${req.body.nft} the character is ${req.body.prompt},${req.body.prompt}, mood of the image is ${imagemood},cartoony,4k,no text`;
+    console.log("image prompt", imageprmt);
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
       headers: {
