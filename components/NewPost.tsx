@@ -5,26 +5,27 @@ import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";
 import createPost from "@/utils/calls/setters/createPost";
 import uploadImageToBucket from "@/utils/imagetoURL";
+import Image from "next/image";
 const supabase = SUPABASE_URL ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
+function NewPost({ neoline, neolineN3 ,nftid }: { neoline: any; neolineN3: any; nftid:any }) {
   const [txnid,setTxnid]=useState<String>(' ');
   const [input, setInput] = useState("");
   const [progress, setProgress] = useState("0");
   const [content, setContent] = useState("");
-  const [buttondisabled, setDisabled] = useState(true);
+  const [loading1, setLoading1] = useState(true);
   const [prompt, setPrompt] = useState("");
   const [buttonclicked, setButtonClicked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
-  const [nftid, setNftid] = useState("");
+  // const [nftid, setNftid] = useState("");
   const [image, setImage] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const [imageSelect, setImageSelect] = useState(false);
   const [image_url, setImageUrl] = useState("");
-  const [yourAccounts, setYourAccounts] = React.useState<any>([]);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedImageurl, setSelectedImageurl] = useState("");
-
+  const [username, setUsername] = useState("");
+  const [profilepic, setProfilepic] = useState("");
 
   function removeNonUTF8Characters(input: string) {
     var regex = /[^\x00-\x7F]+/g;
@@ -47,7 +48,12 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
         ? await supabase.from("profile").select("*").eq("userid", nftid)
         : { data: null, error: new Error("supabase not initialized") };
       if (account != null && account.length > 0) {
-        const { kind, sad, funny, angry,nftdesc,profilepic } = account[0];
+        const { kind, sad, funny, angry,nftdesc,profilepic,username } = account[0];
+        setUsername(username);
+        console.log(username);
+        setProfilepic(profilepic);
+        console.log(profilepic);
+        setLoading1(false);
         const res = await fetch("/api/createpost", {
           method: "POST",
           headers: {
@@ -83,23 +89,23 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
     setRefresh(true);
   };
 
-  useEffect(() => {
-    (async function () {
-      const { data, error } = supabase
-        ? await supabase
-            .from("profile")
-            .select("*")
-            .eq("wallet_address", "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR")
-        : { data: null, error: new Error("supabase not initialized") };
+  // useEffect(() => {
+  //   (async function () {
+  //     const { data, error } = supabase
+  //       ? await supabase
+  //           .from("profile")
+  //           .select("*")
+  //           .eq("wallet_address", "NL2UNxotZZ3zmTYN8bSuhKDHnceYRnj6NR")
+  //       : { data: null, error: new Error("supabase not initialized") };
 
-      if (error) {
-        console.log("ERROR!!");
-        console.log(error);
-      }
-      console.log(data);
-      setYourAccounts(data || []);
-    })();
-  }, []);
+  //     if (error) {
+  //       console.log("ERROR!!");
+  //       console.log(error);
+  //     }
+  //     console.log(data);
+  //     setYourAccounts(data || []);
+  //   })();
+  // }, []);
   const pollMessageProgress = async (messageId:string) => {
     const startTime = Date.now();
 
@@ -206,6 +212,22 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
       refreshpage();
     }
   },[txnid]);
+  useEffect(()=>{
+    getdet();
+  },[])
+  const getdet = async () => {
+    const { data: account, error } = supabase
+    ? await supabase.from("profile").select("*").eq("userid", nftid)
+    : { data: null, error: new Error("supabase not initialized") };
+  if (account != null && account.length > 0) {
+    const {profilepic,username } = account[0];
+    setUsername(username);
+    console.log(username);
+    setProfilepic(profilepic);
+    console.log(profilepic);
+    setLoading1(false);
+  }
+}
   return (
     neoline != undefined &&
     neolineN3 != undefined && (
@@ -222,21 +244,6 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                 {progress}%
                 </div>
             </div>
-          {/* <div className="w-full max-w-[160px] flex-col mt-4">
-              <button
-                disabled={!refresh}
-                className="rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
-                onClick={() => {
-                  refreshpage();
-                }}
-              >
-                Refresh Page
-              </button>
-              
-            </div>
-            <div className="text-xl font-bold mt-5 justify-center">
-              Txnid:{txnid}
-            </div> */}
           </div>
         )}{imageSelect&&(
             <div className="container  px-2 py-2 lg:px-16 pb-10">
@@ -272,9 +279,9 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
           </div>
         )
         }
-        {!loading &&!imageSelect&& (
+        {!loading &&!imageSelect&&!loading1&& (
           <div className="border-t-[0.5px] px-4 border-b-[0.2px] flex items-stretch py-6 space-x-2  relative border-slate-800">
-            <div className="w-11 h-11 bg-slate-400 rounded-full flex-none"></div>
+              <div className=" w-24 h-24 items-center align-middle justify-center  "><Image className=" items-center align-middle justify-center ml-2 mt-1" width={100} height={100} src={profilepic} alt=""></Image></div>
             <form className="flex flex-col w-full h-full" onSubmit={onSubmit}>
               <input
                 onChange={(ev: any) => {
@@ -287,70 +294,36 @@ function NewPost({ neoline, neolineN3 }: { neoline: any; neolineN3: any }) {
                 id="post"
               />
               <div className="w-full justify-between items-center flex">
-                <div>
-                  <label
-                    htmlFor="countries"
-                    className="block mb-2 text-sm font-medium text-white"
-                  >
-                    Select Your Account
-                  </label>
-                  <select
-                    id="countries"
-                    className=" text-sm rounded-lg focus:border-accent block w-[300px] p-2.5 bg-secondary border-gray-600 placeholder-gray-400 text-gray-900 focus:ring-accent"
-                    onChange={(e) => {
-                      e.target.value != "Choose Your NFT" &&
-                      e.target.value != "No accounts"
-                        ? setDisabled(false)
-                        : setDisabled(true);
-                      console.log(e.target.value);
-                      setNftid(e.target.value);
-                    }}
-                  >
-                    <option defaultValue={0} className="font-semibold">
-                      Choose Your NFT
-                    </option>
-                    {yourAccounts.length == 0 ? (
-                      <option className="font-semibold text-gray-300">
-                        No accounts
-                      </option>
-                    ) : (
-                      yourAccounts.map((item: any, id: any) => (
-                        <option
-                          value={item.userid}
-                          key={id}
-                          className="font-semibold"
-                        >
-                          {item.username}&nbsp;({item.userid})
-                        </option>
-                      ))
-                    )}
-                  </select>
+                <div className="relative flex flex-col items-center justify-center  overflow-hidden">
+                    <div className="flex">
+                        <label className="inline-flex relative items-center mr-5 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={image}
+                                readOnly
+                            />
+                            <div
+                                onClick={() => {
+                                    setImage(!image);
+                                }}
+                                className="w-12 h-8 bg-gray-500 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-[2.5px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
+                            ></div>
+                            <span className="ml-2 text-lg font-medium text-white">
+                                Image
+                            </span>
+                        </label>
+                    </div>
                 </div>
-                <div className="w-full max-w-[100px] flex-col ml-5 pt-5">
-                  <input
-                    id="image-checkbox"
-                    type="checkbox"
-                    onClick={() => setImage(true)}
-                    value=""
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-50"
-                  />
-                  <label
-                    htmlFor="image-checkbox"
-                    className="ml-2 text-sm font-medium  text-white"
-                  >
-                    Image
-                  </label>
-                </div>
-                <div className="w-full max-w-[100px] flex-col mt-4">
+                <div className="w-full max-w-[250px] flex-col mt-4">
                   <button
                     type="submit"
-                    disabled={buttondisabled}
+                    disabled={nftid!=""?false:true}
                     className="text-white rounded-full top bg-secondary px-4 py-2 w-full text-lg text-center hover:bg-opacity-70 transition duration-200 font-bold disabled:bg-gray-500  "
                     onClick={() => {
-                      // sendInput();
                     }}
                   >
-                    Post
+                    Post with {username.charAt(0).toUpperCase() + username.slice(1)}
                   </button>
                 </div>
               </div>

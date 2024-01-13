@@ -31,6 +31,9 @@ const NAVIGATION_ITEMS = [
     icon: BsBell,
   },
 ];
+const refreshpage = () => {
+  window.location.reload();
+};
 const Leftbar = () => {
   const { neoline, neolineN3 } = useLayoutContext();
 
@@ -78,9 +81,11 @@ const Leftbar = () => {
           </Link>
         ))}
         <div className="pt-5">
-          <button className=" w-3/4  rounded-full bg-secondary px-2 py-4  text-xl font-semibold text-center hover:bg-opacity-70 transition duration-200 text-white">
-            Make Post
+          <Link href={"/home"}>
+          <button className=" w-3/4  rounded-full bg-secondary px-2 py-4  text-xl font-semibold text-center hover:bg-opacity-70 transition duration-200 text-white" onClick={refreshpage}>
+            Switch NFT
           </button>
+          </Link>
         </div>
       </div>
       <button className="rounded-full flex items-center space-x-2 bg-transparent p-4 text-center hover:bg-white/10 transition duration-200 w-full justify-between mb-5">
