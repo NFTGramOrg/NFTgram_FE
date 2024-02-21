@@ -2,14 +2,16 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsChat, BsDot } from "react-icons/bs";
-import { BiHappyAlt } from "react-icons/bi";
-import { BiAngry } from "react-icons/bi";
-import { BiSad } from "react-icons/bi";
-import { FaRegLaughSquint } from "react-icons/fa"
+import happyi from "@/public/happy.svg";
+import angryi from "@/public/angry.svg";
+import sadi from "@/public/sad.svg";
+import laughi from "@/public/laugh.svg";
+import replyi from "@/public/reply.svg";
 import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_KEY, SUPABASE_URL } from "@/utils/constants";;
 import timeAgo from "@/utils/timeAgo";
-
+import { FacebookCounter, FacebookSelector, GithubSelector, ReactionBarSelector } from '@charkour/react-reactions';
+import { ReactionCounter } from '@charkour/react-reactions';
 interface FeedProps {
   name: string;
   postId: string;
@@ -80,95 +82,103 @@ function Feed({
   }, [sadR,angryR,laughR,hapR])
   
   return (
-    <div className="flex flex-col  ">
-        <div className="border-t-[0.5px] p-4 border-b-[0.5px] border-accent hover:bg-black ">
-          <div className="flex flex-col space-y-5">
-            <div className="flex items-center space-x-1 ">
-              <div>
-                <div className="w-10 h-10 bg-black rounded-full ">
-                  <Image
-                    className="rounded-full  bg-white "
-                    src={userImage || ""}
-                    alt=""
-                    width={40}
-                    height={40}
-                    priority={true}
-                  />
-                </div>
+    <div className="flex flex-col  hover:bg-black">
+      <div className="p-4 ">
+        <div className="flex flex-col space-y-5">
+          <div className="flex items-center space-x-1">
+              <div className=" w-14 h-14 bg-black rounded-full">
+                <Image
+                  className="rounded-full bg-white"
+                  src={userImage || ""}
+                  alt=""
+                  width={80}
+                  height={80}
+                  priority={true}
+                />
               </div>
-              <Link href={"/profile/" + userId}>
+            <Link href={"/profile/" + userId}>
               <div className="font-bold pl-2 text-secondary">{name}</div>
-              </Link>
-              <div className="text-primary">@{userId}</div>
-              
-              <div>
-                <BsDot />
-              </div>
-              <div>{timeAgo(createdAt)}</div>
-
-            </div>
-          <Link href={"/post/" + postId}>
-            <div className="text-white text-sm">{content}</div>
-            {image && image.includes("png")&& (
-              <div
-                className={`pt-3 aspect-square w-full h-96 rounded-xl`}
-              >
-                <Image
-                  src={image}
-                  alt=""
-                  width={500}
-                  height={500}
-                  className="rounded-xl image max-w-full max-h-full mx-auto"
-                  // unoptimized={true}
-                />
-              </div>
-            )
-            }
-            {
-              image && image.includes("gif")&& (
-                <div
-                className={`pt-3 aspect-square w-full h-96 rounded-xl`}
-              >
-                <Image
-                  src={image}
-                  alt=""
-                  width={500}
-                  height={500}
-                  className="rounded-xl image max-w-full max-h-full mx-auto"
-                  unoptimized={true}
-                  // unoptimized={true}
-                />
-              </div>
-              )
-            }
             </Link>
-            <div className="flex items-center mx-auto justify-between  mt-2 w-[90%]">
-              <div className=" rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer ">
-                
-                <BsChat />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>hap(postId,userId)}>
-              <p className="text-xs mr-3" >{hapR}</p>
-                <BiHappyAlt />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>angry(postId,userId)}>
-              <p className="text-xs mr-3" >{angryR}</p>
-                <BiAngry />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>sad(postId,userId)}>
-              <p className="text-xs mr-3" >{sadR}</p>
-                <BiSad />
-              </div>
-              <div className=" flex rounded-full hover:bg-white/10 transition duraition-200 p-3 cursor-pointer" onClick={()=>laugh(postId,userId)}>
-              <p className="text-xs mr-3">{laughR}</p>
-                <FaRegLaughSquint />
-              </div>
+            <div className="text-primary">@{userId}</div>
+            <div>
+              <BsDot color="white"/>
             </div>
-
+            <div className="text-white">
+              {timeAgo(createdAt)}
+            </div>
+            <div>
+              
+            </div>
           </div>
         </div>
-    </div>
+      </div>
+  
+      {/* Post Details */}
+      <div className="flex flex-col p-4 border-b-[0.2px] border-slate-800 hover:bg-black">
+        <Link href={"/post/" + postId}>
+          <div className="text-white text-sm">{content}</div>
+          {image && image.includes("png") && (
+            <div className={`pt-3 aspect-square w-full h-96 rounded-xl`}>
+              <Image
+                src={image}
+                alt=""
+                width={500}
+                height={500}
+                className="rounded-xl image max-w-full max-h-full mx-auto"
+              />
+            </div>
+          )}
+          {image && image.includes("gif") && (
+            <div className={`pt-3 aspect-square w-full h-96 rounded-xl`}>
+              <Image
+                src={image}
+                alt=""
+                width={500}
+                height={500}
+                className="rounded-xl image max-w-full max-h-full mx-auto"
+                unoptimized={true}
+              />
+            </div>
+          )}
+        </Link>
+            <div>
+        {/* Interaction Buttons */}
+        </div>
+        <div className="flex items-start  justify-start mt-7 ">
+
+              <ReactionBarSelector iconSize={30} style={{
+                backgroundColor: '#1E293B',
+                
+              }}
+              reactions={[{label: "haha", node: <div><Image src={laughi} alt=""></Image></div>, key: "Laugh"},
+              {label: "angry", node: <div><Image src={angryi} alt=""></Image></div>, key: "Angry"},
+              {label: "sad",node: <div><Image src={sadi} alt=""></Image></div>, key: "Sad"},
+              {label: "happy", node: <div><Image src={happyi} alt=""></Image></div>, key: "Happy"},
+              {label: "reply",node: <div><Image src={replyi} alt=""></Image></div>, key: "Reply"}
+            ]}
+              
+              />
+
+
+        </div>
+        <div className="flex items-start justify-start mt-2 mx-2 ">
+        {/* <FacebookCounter/> */}
+                  <ReactionCounter reactions={[
+                                  { label: 'Laugh', node: <Image src={laughi} alt=""></Image>, by:"0ssss" },
+
+                                  { label: 'Happy', node: <Image src={happyi} alt=""></Image>, by: hapR.toString() },
+                                ]} 
+                                bg="#ffffff00"
+                                important={[]}
+                                className="text-white"
+                                />
+                  </div>
+                  
+        
+      </div>
+      </div>
   );
+  
 }
 
 export default Feed;

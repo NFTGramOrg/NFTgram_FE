@@ -8,7 +8,7 @@ export default function timeAgo(timestamp: string) {
   const days = Math.floor(hours / 24);
 
   if (days > 0) {
-    return days === 1 ? "1 day ago" : `${days} days ago`;
+    return days === 1 ? "1 day ago" : `${date.toLocaleDateString()}`;
   } else if (hours > 0) {
     return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
   } else if (minutes > 0) {
