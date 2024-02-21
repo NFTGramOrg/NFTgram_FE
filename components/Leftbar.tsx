@@ -25,11 +25,6 @@ const NAVIGATION_ITEMS = [
     link: "home",
     icon: HiOutlineHashtag,
   },
-  {
-    title: "Notifications",
-    link: "notification",
-    icon: BsBell,
-  },
 ];
 const refreshpage = () => {
   window.location.reload();
